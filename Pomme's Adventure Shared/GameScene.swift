@@ -43,7 +43,7 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        physicsContact = PhysicsContact(collisionBetween: collisionBetween)
+        physicsContact = PhysicsContact(collisionBetweenBall: collisionBetween)
 
         let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 60).size)
         ground.position = CGPoint(x: frame.midX, y: frame.midY + 50)

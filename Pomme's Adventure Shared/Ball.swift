@@ -84,11 +84,8 @@ extension GameScene {
 
     func collisionBetween(ball: SKNode, object: SKNode) {
         if object === player {
-            score -= 500
-            if score < 0 {
-                score = 0
-            }
             remove(ball: ball)
+            gameOver()
         } else if object === hitArea {
             score += 100
             remove(ball: ball)

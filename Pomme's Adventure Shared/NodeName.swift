@@ -8,4 +8,5 @@ enum NodeName: String {
     case score
     case level
     case movePlayerArea
+    case gameOverLabel
 }

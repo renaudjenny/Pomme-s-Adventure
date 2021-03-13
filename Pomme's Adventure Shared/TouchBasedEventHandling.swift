@@ -40,6 +40,18 @@ extension GameScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         stopMovePlayer()
         movePlayerArea?.run(SKAction.removeFromParent())
+
+        guard let touchLocation = touches.first?.location(in: self)
+        else { return }
+
+        // If Game Over Label is present, that means the game is over
+        if gameOverLabel?.frame.contains(touchLocation) ?? false {
+            // Start new game
+            gameOverLabel?.removeFromParent()
+            score = 0
+            level = 1
+            repeatAddBall()
+        }
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -7,4 +7,5 @@ enum ZPosition: CGFloat {
     case hitArea
     case score
     case movePlayerArea
+    case gameOverLabel
 }
