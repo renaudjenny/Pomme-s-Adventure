@@ -35,6 +35,7 @@ class GameScene: SKScene {
             repeatAddBall()
         }
     }
+    var isGameOver = false
 
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)

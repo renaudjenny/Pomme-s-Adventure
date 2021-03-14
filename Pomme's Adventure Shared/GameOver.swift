@@ -10,6 +10,7 @@ extension GameScene {
         children
             .filter { $0.name == NodeName.ball.rawValue }
             .forEach { $0.removeFromParent() }
+        isGameOver = true
 
         let label = SKLabelNode(text: "Game Over")
         label.fontSize = 60

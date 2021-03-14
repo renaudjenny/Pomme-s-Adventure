@@ -7,7 +7,8 @@ extension GameScene {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touchLocation = touches.first?.location(in: self)
+        guard let touchLocation = touches.first?.location(in: self),
+              !isGameOver
         else { return }
 
         hit(location: touchLocation)
@@ -48,6 +49,12 @@ extension GameScene {
         if gameOverLabel?.frame.contains(touchLocation) ?? false {
             // Start new game
             gameOverLabel?.removeFromParent()
+            isGameOver = false
+            player.run(SKAction.sequence([
+                SKAction.fadeOut(withDuration: 0.6),
+                SKAction.move(to: CGPoint(x: ground.frame.midX, y: ground.frame.midY), duration: 0.1),
+                SKAction.fadeIn(withDuration: 0.6)
+            ]))
             score = 0
             level = 1
             repeatAddBall()

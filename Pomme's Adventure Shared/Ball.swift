@@ -25,13 +25,6 @@ extension GameScene {
             height: player.size.height * 5
         )
 
-        // Uncomment to show safe area around the player
-        //        let safeAreaNode = SKSpriteNode(color: .blue, size: safeArea.size)
-        //        safeAreaNode.position = CGPoint(x: safeArea.midX, y: safeArea.midY)
-        //        safeAreaNode.zPosition = ZPosition.player.rawValue - 1
-        //        safeAreaNode.alpha = 0.2
-        //        addChild(safeAreaNode)
-
         let mass: CGFloat = 4
         let possibleDelta: [(dx: CGFloat, dy: CGFloat)] = [
             (mass, mass),
@@ -106,6 +99,15 @@ extension GameScene {
     }
 
     private func remove(ball: SKNode) {
-        ball.run(SKAction.removeFromParent())
+        let appleSlideAnimationTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Red-apple-sliced-1"),
+            SKTexture(imageNamed: "Red-apple-sliced-2"),
+        ]
+        ball.physicsBody?.velocity = .zero
+        ball.run(SKAction.sequence([
+            SKAction.animate(with: appleSlideAnimationTextures, timePerFrame: 0.2),
+            SKAction.fadeOut(withDuration: 0.2),
+            SKAction.removeFromParent(),
+        ]))
     }
 }
