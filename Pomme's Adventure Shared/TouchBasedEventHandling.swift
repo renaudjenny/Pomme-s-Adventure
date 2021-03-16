@@ -13,11 +13,15 @@ extension GameScene {
 
         hit(location: touchLocation)
 
-        if player.frame.insetBy(dx: -50, dy: -50).contains(touchLocation) {
+        if player.node.frame.insetBy(dx: -50, dy: -50).contains(touchLocation) {
             guard movePlayerArea == nil
             else { return }
             let movePlayerArea = SKSpriteNode(color: .gray, size: CGSize(width: 44, height: 44))
             movePlayerArea.name = NodeName.movePlayerArea.rawValue
+            movePlayerArea.physicsBody = SKPhysicsBody(circleOfRadius: 44)
+            movePlayerArea.physicsBody?.isDynamic = false
+            movePlayerArea.physicsBody?.categoryBitMask = BitMask.movePlayerAreaCategory.rawValue
+            movePlayerArea.physicsBody?.contactTestBitMask = BitMask.movePlayerAreaContactTest.rawValue
             movePlayerArea.position = touchLocation
             addChild(movePlayerArea)
         }
@@ -28,18 +32,17 @@ extension GameScene {
         else { return }
 
         if let movePlayerArea = movePlayerArea {
-            if !player.frame.intersects(movePlayerArea.frame) {
-                movePlayer(toLocation: touchLocation)
-
-                let textures: [SKTexture] = [SKTexture(imageNamed: "Pomme-move"), SKTexture(imageNamed: "Pomme-move-2")]
-                player.run(SKAction.repeatForever(SKAction.animate(with: textures, timePerFrame: 0.4)), withKey: "MoveAnimationAction")
+            if !player.node.frame.intersects(movePlayerArea.frame) {
+                player.move(toLocation: touchLocation)
+            } else {
+                player.stopMoving()
             }
             movePlayerArea.run(SKAction.move(to: touchLocation, duration: 0.1))
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        stopMovePlayer()
+        player.stopMoving()
         movePlayerArea?.run(SKAction.removeFromParent())
 
         guard let touchLocation = touches.first?.location(in: self)
@@ -50,11 +53,7 @@ extension GameScene {
             // Start new game
             gameOverLabel?.removeFromParent()
             isGameOver = false
-            player.run(SKAction.sequence([
-                SKAction.fadeOut(withDuration: 0.6),
-                SKAction.move(to: CGPoint(x: ground.frame.midX, y: ground.frame.midY), duration: 0.1),
-                SKAction.fadeIn(withDuration: 0.6)
-            ]))
+            player.fall(resurrectionPosition: center)
             score = 0
             level = 1
             repeatAddBall()
@@ -62,7 +61,7 @@ extension GameScene {
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        stopMovePlayer()
+        player.stopMoving()
         movePlayerArea?.run(SKAction.removeFromParent())
     }
 }

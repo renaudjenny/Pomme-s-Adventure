@@ -18,12 +18,7 @@ extension GameScene {
         let ball = SKSpriteNode(imageNamed: Bool.random() ? "Red-apple" : "Green-apple")
         ball.size = CGSize(width: 20, height: 20)
         // Compute a safe area where the balls cannot pop, otherwise the game could be too difficult.
-        let safeArea = CGRect(
-            x: player.frame.minX - player.size.width * 2,
-            y: player.frame.minY - player.size.height * 2,
-            width: player.size.width * 5,
-            height: player.size.height * 5
-        )
+        let safeArea = player.safeArea
 
         let mass: CGFloat = 4
         let possibleDelta: [(dx: CGFloat, dy: CGFloat)] = [
@@ -76,7 +71,7 @@ extension GameScene {
     }
 
     func collisionBetween(ball: SKNode, object: SKNode) {
-        if object === player {
+        if object === player.node {
             remove(ball: ball)
             gameOver()
         } else if object === hitArea {

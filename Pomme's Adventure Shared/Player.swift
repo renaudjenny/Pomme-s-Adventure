@@ -1,69 +1,88 @@
 import SpriteKit
 
-extension GameScene {
-    var player: SKSpriteNode {
-        children.first(where: { $0.name == NodeName.player.rawValue }) as? SKSpriteNode
-            ?? errorSpriteNode
+struct Player {
+    let node: SKSpriteNode
+
+    var safeArea: CGRect {
+        CGRect(
+            x: node.frame.minX - node.size.width * 2,
+            y: node.frame.minY - node.size.height * 2,
+            width: node.size.width * 5,
+            height: node.size.height * 5
+        )
     }
 
-    func makePlayer() {
-        let player = SKSpriteNode(imageNamed: "Pomme-static")
-        player.size = CGSize(width: 50, height: 50)
-        player.position = CGPoint(x: ground.frame.midX, y: ground.frame.midY)
-        player.zPosition = ZPosition.player.rawValue
-        player.physicsBody = SKPhysicsBody(circleOfRadius: player.frame.width/2 * 0.9)
-        player.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
-        player.physicsBody?.collisionBitMask = BitMask.playerCollision.rawValue
-        player.physicsBody?.contactTestBitMask = BitMask.playerContactTest.rawValue
-        player.physicsBody?.mass = 80
-        player.physicsBody?.linearDamping = 1
-        player.name = NodeName.player.rawValue
-        addChild(player)
+    init() {
+        node = SKSpriteNode(imageNamed: "Pomme-static")
+
+        node.size = CGSize(width: 50, height: 50)
+        node.zPosition = ZPosition.player.rawValue
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.frame.width/2 * 0.9)
+        node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
+        node.physicsBody?.collisionBitMask = BitMask.playerCollision.rawValue
+        node.physicsBody?.contactTestBitMask = BitMask.playerContactTest.rawValue
+        node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
+        node.physicsBody?.mass = 80
+        node.physicsBody?.linearDamping = 1
+        node.name = NodeName.player.rawValue
     }
 
-    func movePlayer(toLocation location: CGPoint) {
+    func move(toLocation location: CGPoint) {
         let factor: CGFloat = 3
-        let x: CGFloat = location.x - player.frame.midX
-        let y: CGFloat = location.y - player.frame.midY
-        player.physicsBody?.velocity = CGVector(dx: x * factor, dy: y * factor)
+        let x: CGFloat = location.x - node.frame.midX
+        let y: CGFloat = location.y - node.frame.midY
+        node.physicsBody?.velocity = CGVector(dx: x * factor, dy: y * factor)
 
-        player.run(SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true))
+        node.run(SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true))
+
+        /*
+         let textures: [SKTexture] = [SKTexture(imageNamed: "Pomme-move"), SKTexture(imageNamed: "Pomme-move-2")]
+         player.run(SKAction.repeatForever(SKAction.animate(with: textures, timePerFrame: 0.4)), withKey: "MoveAnimationAction")
+         */
     }
 
-    func movePlayer(toDirection direction: Direction) {
+    func move(toDirection direction: Direction) {
         let factor: CGFloat = 300
         switch direction {
         case .topLeft:
-            player.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: 1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: 1 * factor)
         case .top:
-            player.physicsBody?.velocity = CGVector(dx: 0 * factor, dy: 1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: 0 * factor, dy: 1 * factor)
         case .topRight:
-            player.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: 1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: 1 * factor)
         case .right:
-            player.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: 0 * factor)
+            node.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: 0 * factor)
         case .bottomRight:
-            player.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: -1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: 1 * factor, dy: -1 * factor)
         case .bottom:
-            player.physicsBody?.velocity = CGVector(dx: 0 * factor, dy: -1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: 0 * factor, dy: -1 * factor)
         case .bottomLeft:
-            player.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: -1 * factor)
+            node.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: -1 * factor)
         case .left:
-            player.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: 0 * factor)
+            node.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: 0 * factor)
         }
     }
 
-    func stopMovePlayer() {
-        player.physicsBody?.velocity = .zero
-        player.removeAction(forKey: "MoveAnimationAction")
-        player.run(SKAction.sequence([
+    func stopMoving() {
+        node.physicsBody?.velocity = .zero
+        node.removeAction(forKey: "MoveAnimationAction")
+        node.run(SKAction.sequence([
             SKAction.wait(forDuration: 0.6),
             SKAction.setTexture(SKTexture(imageNamed: "Pomme-static")),
         ]))
     }
 
-    func playerDirection(from location: CGPoint) -> Direction {
-        let x = player.frame.midX - location.x
-        let y = player.frame.midY - location.y
+    func fall(resurrectionPosition: CGPoint) {
+        node.run(SKAction.sequence([
+            SKAction.fadeOut(withDuration: 0.6),
+            SKAction.move(to: resurrectionPosition, duration: 0.1),
+            SKAction.fadeIn(withDuration: 0.6)
+        ]))
+    }
+
+    func direction(from location: CGPoint) -> Direction {
+        let x = node.frame.midX - location.x
+        let y = node.frame.midY - location.y
         let radian = atan2(x, y)
 
         switch radian {

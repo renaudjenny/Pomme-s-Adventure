@@ -2,10 +2,15 @@ import SpriteKit
 
 class GameScene: SKScene {
     private var physicsContact: PhysicsContact?
+    let player = Player()
+
     let errorSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
     var ground: SKSpriteNode {
         children.first(where: { $0.name == NodeName.ground.rawValue }) as? SKSpriteNode
             ?? errorSpriteNode
+    }
+    var center: CGPoint {
+        CGPoint(x: ground.frame.midX, y: ground.frame.midY)
     }
     var scoreLabel: SKLabelNode {
         children.first(where: { $0.name == NodeName.score.rawValue }) as? SKLabelNode
@@ -37,7 +42,10 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        physicsContact = PhysicsContact(collisionBetweenBall: collisionBetween)
+        physicsContact = PhysicsContact(
+            collisionBetweenBall: collisionBetween,
+            collisionBetweenMovePlayerAreaAndPlayer: player.stopMoving
+        )
 
         let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 60).size)
         ground.position = CGPoint(x: frame.midX, y: frame.midY + 50)
@@ -45,7 +53,8 @@ class GameScene: SKScene {
         ground.name = NodeName.ground.rawValue
         addChild(ground)
 
-        makePlayer()
+        addChild(player.node)
+        player.node.position = center
 
         let scoreLabel = SKLabelNode(text: "Score: 0")
         scoreLabel.position = CGPoint(x: frame.minX + 20, y: frame.minY + 20)
@@ -62,7 +71,6 @@ class GameScene: SKScene {
         addChild(levelLabel)
 
         physicsBody = SKPhysicsBody(edgeLoopFrom: ground.frame)
-        player.physicsBody?.categoryBitMask = BitMask.borderCategory.rawValue
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = physicsContact
@@ -71,15 +79,6 @@ class GameScene: SKScene {
             SKAction.wait(forDuration: 2),
             SKAction.run(repeatAddBall),
         ]))
-    }
-
-    override func update(_ currentTime: TimeInterval) {
-        #if os(iOS) || os(tvOS)
-        if let movePlayerAreaFrame = movePlayerArea?.frame,
-           player.frame.intersects(movePlayerAreaFrame) {
-            stopMovePlayer()
-        }
-        #endif
     }
 
     private func setLevelPerScore() {
