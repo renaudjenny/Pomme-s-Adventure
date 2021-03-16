@@ -185,7 +185,6 @@ class GameScene: SKScene {
         hitArea.physicsBody = SKPhysicsBody(rectangleOf: hitArea.frame.size)
         hitArea.physicsBody?.isDynamic = false
         hitArea.physicsBody?.categoryBitMask = BitMask.hitAreaCategory.rawValue
-        hitArea.physicsBody?.collisionBitMask = BitMask.hitAreaCollision.rawValue
         hitArea.physicsBody?.contactTestBitMask = BitMask.hitAreaContactTest.rawValue
         addChild(hitArea)
 

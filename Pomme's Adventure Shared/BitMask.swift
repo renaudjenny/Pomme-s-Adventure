@@ -10,8 +10,7 @@ struct BitMask: OptionSet {
     static let movePlayerAreaCategory = BitMask(rawValue: 1 << 4)
 
     static let playerCollision: BitMask = [.ballCategory, .borderCategory]
-    static let ballCollision: BitMask = [.ballCategory, .playerCategory, .hitAreaCategory, .borderCategory]
-    static let hitAreaCollision: BitMask = [.ballCategory]
+    static let ballCollision: BitMask = [.playerCategory, .borderCategory]
 
     static let playerContactTest: BitMask = [.ballCategory, .movePlayerAreaCategory]
     static let ballContactTest: BitMask = [.playerCategory, .hitAreaCategory, .borderCategory]
