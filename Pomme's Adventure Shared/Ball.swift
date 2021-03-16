@@ -103,6 +103,8 @@ extension GameScene {
             SKTexture(imageNamed: "Red-apple-sliced-1"),
             SKTexture(imageNamed: "Red-apple-sliced-2"),
         ]
+        ball.physicsBody?.contactTestBitMask = 0
+        ball.physicsBody?.categoryBitMask = 0
         ball.physicsBody?.velocity = .zero
         ball.run(SKAction.sequence([
             SKAction.animate(with: appleSlideAnimationTextures, timePerFrame: 0.2),
