@@ -6,7 +6,7 @@ extension GameScene {
     func repeatAddBall() {
         removeAction(forKey: GameScene.repeatAddBallKey)
 
-        let durationBetweenBalls: TimeInterval = 2.5/TimeInterval(level) + 0.05
+        let durationBetweenBalls: TimeInterval = 2.0/TimeInterval(level) + 0.05
         run(SKAction.repeatForever(SKAction.sequence([
             SKAction.wait(forDuration: durationBetweenBalls),
             SKAction.run(addBall),
@@ -20,19 +20,10 @@ extension GameScene {
         // Compute a safe area where the balls cannot pop, otherwise the game could be too difficult.
         let safeArea = player.safeArea
 
-        let mass: CGFloat = 4
-        let possibleDelta: [(dx: CGFloat, dy: CGFloat)] = [
-            (mass, mass),
-            (-mass, mass),
-            (mass, -mass),
-            (-mass, -mass)
-        ]
-        let possibleImpulseFactor: [CGFloat] = [240, 250, 260]
-        let impulse: CGVector = possibleDelta.flatMap { delta -> [CGVector] in
-            possibleImpulseFactor.map { impulseFactor -> CGVector in
-                CGVector(dx: impulseFactor * delta.dx, dy: impulseFactor * delta.dy)
-            }
-        }.randomElement() ?? .zero
+        let delta: (dx: CGFloat, dy: CGFloat) = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
+            .randomElement() ?? (.zero, .zero)
+        let impulseFactor: CGFloat = 4
+        let impulse = CGVector(dx: impulseFactor * delta.dx, dy: impulseFactor * delta.dy)
 
         while true {
             let position = CGPoint(
@@ -54,7 +45,6 @@ extension GameScene {
             ball.physicsBody?.restitution = 1
             ball.physicsBody?.linearDamping = 0
             ball.physicsBody?.angularDamping = 0
-            ball.physicsBody?.mass = mass
             ball.physicsBody?.categoryBitMask = BitMask.ballCategory.rawValue
             ball.physicsBody?.collisionBitMask = BitMask.ballCollision.rawValue
             ball.physicsBody?.contactTestBitMask = BitMask.ballContactTest.rawValue
@@ -81,14 +71,23 @@ extension GameScene {
             // balls can be stuck to the border if they haven't enough velocity
             // In this case, let's them bonce in direction to the center with
             // enough Velocity to bounce again
-            let isStuck = abs(ball.physicsBody?.velocity.dx ?? 0) <= 100
-                || abs(ball.physicsBody?.velocity.dy ?? 0) <= 100
-            if isStuck {
-                let dx: CGFloat = ground.frame.midX - ball.frame.midX
-                let dy: CGFloat = ground.frame.midY - ball.frame.midY
 
-                let impulse = CGVector(dx: dx, dy: dy)
-                ball.physicsBody?.applyImpulse(impulse)
+            func runImpulse(impulse: CGVector) {
+                ball.run(SKAction.sequence([
+                    SKAction.scale(to: 1.2, duration: 1),
+                    SKAction.group([
+                        SKAction.scale(to: 1, duration: 1),
+                        SKAction.applyImpulse(impulse, duration: 0.2)
+                    ]),
+                ]))
+            }
+
+            if abs(ball.physicsBody?.velocity.dx ?? 0) <= 1 {
+                let dx: CGFloat = ground.frame.midX - ball.frame.midX > 0 ? 1 : -1
+                runImpulse(impulse: CGVector(dx: dx, dy: 0))
+            } else if abs(ball.physicsBody?.velocity.dy ?? 0) <= 1 {
+                let dy: CGFloat = ground.frame.midY - ball.frame.midY > 0 ? 1 : -1
+                runImpulse(impulse: CGVector(dx: 0, dy: dy))
             }
         }
     }
