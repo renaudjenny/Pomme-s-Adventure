@@ -30,9 +30,6 @@
 		4CEE087A25FB7C8C005CE252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE087925FB7C8C005CE252 /* AppDelegate.swift */; };
 		4CEE087C25FB7C8C005CE252 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE087B25FB7C8C005CE252 /* GameViewController.swift */; };
 		4CEE087F25FB7C8C005CE252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CEE087D25FB7C8C005CE252 /* Main.storyboard */; };
-		4CEE088525FB7C8C005CE252 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4CEE084D25FB7C84005CE252 /* GameScene.sks */; };
-		4CEE088625FB7C8C005CE252 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4CEE084D25FB7C84005CE252 /* GameScene.sks */; };
-		4CEE088725FB7C8C005CE252 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4CEE084D25FB7C84005CE252 /* GameScene.sks */; };
 		4CEE088825FB7C8C005CE252 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE084E25FB7C84005CE252 /* GameScene.swift */; };
 		4CEE088925FB7C8C005CE252 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE084E25FB7C84005CE252 /* GameScene.swift */; };
 		4CEE088A25FB7C8C005CE252 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE084E25FB7C84005CE252 /* GameScene.swift */; };
@@ -67,7 +64,6 @@
 		4C28F56D260142810065BF13 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4C28F5742601444A0065BF13 /* Hit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hit.swift; sourceTree = "<group>"; };
 		4C28F57F2603E87E0065BF13 /* Bonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bonus.swift; sourceTree = "<group>"; };
-		4CEE084D25FB7C84005CE252 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		4CEE084E25FB7C84005CE252 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		4CEE084F25FB7C8C005CE252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CEE085425FB7C8C005CE252 /* Pomme's Adventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pomme's Adventure.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,7 +138,6 @@
 				4C28F57F2603E87E0065BF13 /* Bonus.swift */,
 				4CEE08BB25FB822C005CE252 /* Direction.swift */,
 				4C28F54425FD62750065BF13 /* GameOver.swift */,
-				4CEE084D25FB7C84005CE252 /* GameScene.sks */,
 				4CEE084E25FB7C84005CE252 /* GameScene.swift */,
 				4C28F5742601444A0065BF13 /* Hit.swift */,
 				4CEE08B425FB8209005CE252 /* NodeName.swift */,
@@ -299,7 +294,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CEE088525FB7C8C005CE252 /* GameScene.sks in Resources */,
 				4CEE085D25FB7C8C005CE252 /* Main.storyboard in Resources */,
 				4CEE086025FB7C8C005CE252 /* LaunchScreen.storyboard in Resources */,
 				4CEE088B25FB7C8C005CE252 /* Assets.xcassets in Resources */,
@@ -310,7 +304,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CEE088625FB7C8C005CE252 /* GameScene.sks in Resources */,
 				4CEE086E25FB7C8C005CE252 /* Main.storyboard in Resources */,
 				4CEE087125FB7C8C005CE252 /* LaunchScreen.storyboard in Resources */,
 				4CEE088C25FB7C8C005CE252 /* Assets.xcassets in Resources */,
@@ -322,7 +315,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CEE087F25FB7C8C005CE252 /* Main.storyboard in Resources */,
-				4CEE088725FB7C8C005CE252 /* GameScene.sks in Resources */,
 				4CEE088D25FB7C8C005CE252 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

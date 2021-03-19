@@ -2,6 +2,10 @@ import SpriteKit
 
 struct Player {
     let node: SKSpriteNode
+    let movementTextures: [SKTexture] = [
+        SKTexture(imageNamed: "Pomme-move"),
+        SKTexture(imageNamed: "Pomme-move-2")
+    ]
 
     var safeArea: CGRect {
         CGRect(
@@ -22,27 +26,22 @@ struct Player {
         node.physicsBody?.collisionBitMask = BitMask.playerCollision.rawValue
         node.physicsBody?.contactTestBitMask = BitMask.playerContactTest.rawValue
         node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
-        node.physicsBody?.mass = 80
-        node.physicsBody?.linearDamping = 1
         node.name = NodeName.player.rawValue
     }
 
     func move(toLocation location: CGPoint) {
-        let factor: CGFloat = 3
         let x: CGFloat = location.x - node.frame.midX
         let y: CGFloat = location.y - node.frame.midY
-        node.physicsBody?.velocity = CGVector(dx: x * factor, dy: y * factor)
 
-        node.run(SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true))
-
-        /*
-         let textures: [SKTexture] = [SKTexture(imageNamed: "Pomme-move"), SKTexture(imageNamed: "Pomme-move-2")]
-         player.run(SKAction.repeatForever(SKAction.animate(with: textures, timePerFrame: 0.4)), withKey: "MoveAnimationAction")
-         */
+        node.run(SKAction.group([
+            SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true),
+            SKAction.move(to: location, duration: 0.2),
+            SKAction.animate(with: movementTextures, timePerFrame: 0.2)
+        ]))
     }
 
     func move(toDirection direction: Direction) {
-        let factor: CGFloat = 300
+        let factor: CGFloat = 1
         switch direction {
         case .topLeft:
             node.physicsBody?.velocity = CGVector(dx: -1 * factor, dy: 1 * factor)
@@ -65,7 +64,6 @@ struct Player {
 
     func stopMoving() {
         node.physicsBody?.velocity = .zero
-        node.removeAction(forKey: "MoveAnimationAction")
         node.run(SKAction.sequence([
             SKAction.wait(forDuration: 0.6),
             SKAction.setTexture(SKTexture(imageNamed: "Pomme-static")),
