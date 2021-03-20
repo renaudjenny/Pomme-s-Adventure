@@ -46,7 +46,6 @@ extension GameScene {
             ball.physicsBody?.linearDamping = 0
             ball.physicsBody?.angularDamping = 0
             ball.physicsBody?.categoryBitMask = BitMask.ballCategory.rawValue
-            ball.physicsBody?.collisionBitMask = BitMask.ballCollision.rawValue
             ball.physicsBody?.contactTestBitMask = BitMask.ballContactTest.rawValue
 
             addChild(ball)

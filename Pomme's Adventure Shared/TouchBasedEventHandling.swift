@@ -18,27 +18,22 @@ extension GameScene {
             else { return }
             let movePlayerArea = SKSpriteNode(color: .gray, size: CGSize(width: 44, height: 44))
             movePlayerArea.name = NodeName.movePlayerArea.rawValue
-            movePlayerArea.physicsBody = SKPhysicsBody(circleOfRadius: 44)
-            movePlayerArea.physicsBody?.isDynamic = false
-            movePlayerArea.physicsBody?.categoryBitMask = BitMask.movePlayerAreaCategory.rawValue
-            movePlayerArea.physicsBody?.contactTestBitMask = BitMask.movePlayerAreaContactTest.rawValue
             movePlayerArea.position = touchLocation
             addChild(movePlayerArea)
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touchLocation = touches.first?.location(in: self)
+        guard let touchLocation = touches.first?.location(in: self),
+              let movePlayerArea = movePlayerArea
         else { return }
 
-        if let movePlayerArea = movePlayerArea {
-            if !player.node.frame.intersects(movePlayerArea.frame) {
-                player.move(toLocation: touchLocation)
-            } else {
-                player.stopMoving()
-            }
-            movePlayerArea.run(SKAction.move(to: touchLocation, duration: 0.1))
+        if !player.node.frame.intersects(movePlayerArea.frame) {
+            player.move(toLocation: touchLocation)
+        } else {
+            player.stopMoving()
         }
+        movePlayerArea.run(SKAction.move(to: touchLocation, duration: 0.1))
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

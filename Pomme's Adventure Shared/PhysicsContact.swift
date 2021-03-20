@@ -6,7 +6,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 
     init(
         collisionBetweenBall: @escaping (_ ball: SKNode, _ object: SKNode) -> Void,
-        collisionBetweenMovePlayerAreaAndPlayer: @escaping () -> Void = { }
+        collisionBetweenMovePlayerAreaAndPlayer: @escaping () -> Void
     ) {
         self.collisionBetweenBall = collisionBetweenBall
         self.collisionBetweenMovePlayerAreaAndPlayer = collisionBetweenMovePlayerAreaAndPlayer

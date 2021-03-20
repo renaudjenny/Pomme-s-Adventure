@@ -23,7 +23,6 @@ struct Player {
         node.zPosition = ZPosition.player.rawValue
         node.physicsBody = SKPhysicsBody(circleOfRadius: node.frame.width/2 * 0.9)
         node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
-        node.physicsBody?.collisionBitMask = BitMask.playerCollision.rawValue
         node.physicsBody?.contactTestBitMask = BitMask.playerContactTest.rawValue
         node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
         node.name = NodeName.player.rawValue
