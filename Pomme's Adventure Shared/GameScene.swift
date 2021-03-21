@@ -1,8 +1,9 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    private var physicsContact: PhysicsContact?
+    var physicsContact: PhysicsContact?
     let player = Player()
+    let ball = Ball()
 
     let errorSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
     var ground: SKSpriteNode {
@@ -35,6 +36,11 @@ class GameScene: SKScene {
     }
     var isGameOver = false
 
+    lazy var allowedBallAppearAreas: [CGRect] = {
+        let groundFrame = ground.frame.insetBy(dx: 20, dy: 20)
+        return [groundFrame]
+    }()
+
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)
         scene.scaleMode = .aspectFill
@@ -43,8 +49,12 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         physicsContact = PhysicsContact(
-            collisionBetweenBall: collisionBetween,
-            collisionBetweenMovePlayerAreaAndPlayer: player.stopMoving
+            collisionBetweenMovePlayerAreaAndPlayer: player.stopMoving,
+            borderNode: self,
+            groundNode: ground,
+            playerNode: player.node,
+            ballHit: removeBall,
+            playerTouched: playerTouched
         )
 
         let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 60).size)

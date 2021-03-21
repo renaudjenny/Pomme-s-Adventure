@@ -51,6 +51,8 @@ extension GameScene {
         hitArea.physicsBody?.contactTestBitMask = BitMask.hitAreaContactTest.rawValue
         addChild(hitArea)
 
+        physicsContact?.hitAreaNode = hitArea
+
         // TODO: Hit should be triggered by the player at the end of the day...
         player.node.run(SKAction.rotate(toAngle: direction.angle, duration: 0.1, shortestUnitArc: true))
     }
