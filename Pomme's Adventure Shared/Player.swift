@@ -22,9 +22,9 @@ struct Player {
         node.size = CGSize(width: 50, height: 50)
         node.zPosition = ZPosition.player.rawValue
         node.physicsBody = SKPhysicsBody(circleOfRadius: node.frame.width/2 * 0.9)
-        node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
-        node.physicsBody?.contactTestBitMask = BitMask.playerContactTest.rawValue
-        node.physicsBody?.categoryBitMask = BitMask.playerCategory.rawValue
+        node.physicsBody?.categoryBitMask = .playerCategoryBitMask
+        node.physicsBody?.contactTestBitMask = .playerContactTestBitMask
+        node.physicsBody?.collisionBitMask = .playerCollisionBitMask
         node.name = NodeName.player.rawValue
     }
 

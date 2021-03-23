@@ -47,8 +47,9 @@ extension GameScene {
         ]))
         hitArea.physicsBody = SKPhysicsBody(rectangleOf: hitArea.frame.size)
         hitArea.physicsBody?.isDynamic = false
-        hitArea.physicsBody?.categoryBitMask = BitMask.hitAreaCategory.rawValue
-        hitArea.physicsBody?.contactTestBitMask = BitMask.hitAreaContactTest.rawValue
+        hitArea.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
+        hitArea.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
+        hitArea.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
         addChild(hitArea)
 
         physicsContact?.hitAreaNode = hitArea

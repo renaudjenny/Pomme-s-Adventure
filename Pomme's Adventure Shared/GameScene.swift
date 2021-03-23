@@ -81,6 +81,7 @@ class GameScene: SKScene {
         addChild(levelLabel)
 
         physicsBody = SKPhysicsBody(edgeLoopFrom: ground.frame)
+        physicsBody?.categoryBitMask = BitMask.borderCategory.rawValue
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = physicsContact

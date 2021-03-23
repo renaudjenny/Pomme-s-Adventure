@@ -39,8 +39,9 @@ struct Ball {
         ball.physicsBody?.restitution = 1
         ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.angularDamping = 0
-        ball.physicsBody?.categoryBitMask = BitMask.ballCategory.rawValue
-        ball.physicsBody?.contactTestBitMask = BitMask.ballContactTest.rawValue
+        ball.physicsBody?.categoryBitMask = .ballCategoryBitMask
+        ball.physicsBody?.collisionBitMask = .ballCollisionBitMask
+        ball.physicsBody?.contactTestBitMask = .ballContactTestBitMask
 
         gameNode.addChild(ball)
 
