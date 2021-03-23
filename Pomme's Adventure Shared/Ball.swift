@@ -3,18 +3,7 @@ import SpriteKit
 struct Ball {
     static let repeatAddBallActionKey = "ActionRepeatAddBall"
 
-    func repeatAddBall(level: Int, gameNode: SKNode, allowedAreas: [CGRect]) {
-        gameNode.removeAction(forKey: Ball.repeatAddBallActionKey)
-
-        let durationBetweenBalls: TimeInterval = 2.0/TimeInterval(level) + 0.05
-        gameNode.run(SKAction.repeatForever(SKAction.sequence([
-            SKAction.wait(forDuration: durationBetweenBalls),
-            SKAction.run { addBall(gameNode: gameNode, allowedAreas: allowedAreas) },
-            SKAction.wait(forDuration: durationBetweenBalls),
-        ])), withKey: Ball.repeatAddBallActionKey)
-    }
-
-    private func addBall(gameNode: SKNode, allowedAreas: [CGRect]) {
+    func addBall(addChild: (SKNode) -> Void, allowedAreas: [CGRect]) {
         let ball = SKSpriteNode(imageNamed: Bool.random() ? "Red-apple" : "Green-apple")
         ball.size = CGSize(width: 20, height: 20)
 
@@ -26,8 +15,8 @@ struct Ball {
         let area = allowedAreas.randomElement() ?? .zero
 
         let position = CGPoint(
-            x: CGFloat.random(in: area.minX...area.maxX - ball.size.width),
-            y: CGFloat.random(in: area.minY...area.maxY - ball.size.height)
+            x: CGFloat.random(in: area.minX...area.maxX),
+            y: CGFloat.random(in: area.minY...area.maxY)
         )
 
         ball.position = position
@@ -43,7 +32,7 @@ struct Ball {
         ball.physicsBody?.collisionBitMask = .ballCollisionBitMask
         ball.physicsBody?.contactTestBitMask = .ballContactTestBitMask
 
-        gameNode.addChild(ball)
+        addChild(ball)
 
         ball.run(SKAction.sequence([
             SKAction.fadeIn(withDuration: 1.4),
@@ -69,6 +58,17 @@ struct Ball {
 
 extension GameScene {
     func repeatAddBall() {
-        ball.repeatAddBall(level: level, gameNode: self, allowedAreas: allowedBallAppearAreas)
+        removeAction(forKey: Ball.repeatAddBallActionKey)
+
+        let durationBetweenBalls: TimeInterval = 2.0/TimeInterval(level) + 0.05
+        run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.wait(forDuration: durationBetweenBalls),
+            SKAction.run(addNewBall),
+            SKAction.wait(forDuration: durationBetweenBalls),
+        ])), withKey: Ball.repeatAddBallActionKey)
+    }
+
+    private func addNewBall() {
+        ball.addBall(addChild: addChild, allowedAreas: allowedBallAppearAreas)
     }
 }

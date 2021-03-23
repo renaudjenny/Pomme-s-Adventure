@@ -36,10 +36,27 @@ class GameScene: SKScene {
     }
     var isGameOver = false
 
-    lazy var allowedBallAppearAreas: [CGRect] = {
-        let groundFrame = ground.frame.insetBy(dx: 20, dy: 20)
-        return [groundFrame]
-    }()
+    var allowedBallAppearAreas: [CGRect] {
+        let groundFrame = ground.frame.insetBy(dx: 30, dy: 30)
+        let playerFrame = player.node.frame.insetBy(dx: -50, dy: -50)
+
+        let (left, _) = groundFrame.divided(atDistance: playerFrame.minX - groundFrame.minX, from: .minXEdge)
+        let (right, _) = groundFrame.divided(atDistance: groundFrame.maxX - playerFrame.maxX, from: .maxXEdge)
+        let (bottom, _) = groundFrame.divided(atDistance: playerFrame.minY - groundFrame.minY, from: .minYEdge)
+        let (top, _) = groundFrame.divided(atDistance: groundFrame.maxY - playerFrame.maxY, from: .maxYEdge)
+
+        // Debug code for the safe area
+//        [(left, SKColor.blue), (right, SKColor.green), (bottom, SKColor.yellow), (top, SKColor.red)].forEach { rect, color in
+//            let test = SKSpriteNode(color: color.withAlphaComponent(2/3), size: rect.size)
+//            test.anchorPoint = .zero
+//            test.position = rect.origin
+//            self.addChild(test)
+//            test.run(SKAction.sequence([SKAction.fadeOut(withDuration: 6), SKAction.removeFromParent()]))
+//        }
+
+        return [left, right, bottom, top]
+            .filter { !$0.isEmpty }
+    }
 
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)
