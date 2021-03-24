@@ -7,12 +7,13 @@ struct BitMask: OptionSet {
     static let playerCategory = BitMask(rawValue: 1 << 2)
     static let ballCategory = BitMask(rawValue: 1 << 3)
     static let hitAreaCategory = BitMask(rawValue: 1 << 4)
+    static let movePlayerAreaCategory = BitMask(rawValue: 1 << 5)
 
     static let playerCollision: BitMask = [.borderCategory]
     static let ballCollision: BitMask = [.borderCategory, .playerCategory]
     static let hitAreaCollision: BitMask = []
 
-    static let playerContactTest: BitMask = [.ballCategory]
+    static let playerContactTest: BitMask = [.ballCategory, .movePlayerAreaCategory]
     static let ballContactTest: BitMask = [.playerCategory, .hitAreaCategory]
     static let hitAreaContactTest: BitMask = [.ballCategory]
 }
@@ -22,6 +23,7 @@ extension UInt32 {
     static let playerCategoryBitMask: Self = BitMask.playerCategory.rawValue
     static let ballCategoryBitMask: Self = BitMask.ballCategory.rawValue
     static let hitAreaCategoryBitMask: Self = BitMask.hitAreaCategory.rawValue
+    static let movePlayerAreaCategoryBitMask: Self = BitMask.movePlayerAreaCategory.rawValue
 
     static let playerCollisionBitMask: Self = BitMask.playerCollision.rawValue
     static let ballCollisionBitMask: Self = BitMask.ballCollision.rawValue

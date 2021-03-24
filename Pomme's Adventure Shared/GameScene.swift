@@ -97,6 +97,7 @@ class GameScene: SKScene {
         levelLabel.name = NodeName.level.rawValue
         addChild(levelLabel)
 
+        self.name = NodeName.border.rawValue
         physicsBody = SKPhysicsBody(edgeLoopFrom: ground.frame)
         physicsBody?.categoryBitMask = BitMask.borderCategory.rawValue
 

@@ -19,6 +19,9 @@ extension GameScene {
             let movePlayerArea = SKSpriteNode(color: .gray, size: CGSize(width: 44, height: 44))
             movePlayerArea.name = NodeName.movePlayerArea.rawValue
             movePlayerArea.position = touchLocation
+            movePlayerArea.physicsBody = SKPhysicsBody(circleOfRadius: 22)
+            movePlayerArea.physicsBody?.categoryBitMask = .movePlayerAreaCategoryBitMask
+            movePlayerArea.physicsBody?.isDynamic = false
             addChild(movePlayerArea)
         }
     }
@@ -30,8 +33,6 @@ extension GameScene {
 
         if !player.node.frame.intersects(movePlayerArea.frame) {
             player.move(toLocation: touchLocation)
-        } else {
-            player.stopMoving()
         }
         movePlayerArea.run(SKAction.move(to: touchLocation, duration: 0.1))
     }
