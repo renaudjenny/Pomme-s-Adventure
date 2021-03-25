@@ -11,7 +11,7 @@ extension GameScene {
               !isGameOver
         else { return }
 
-        hit(location: touchLocation)
+        addChild(hit.area(location: touchLocation, player: player))
 
         if player.node.frame.insetBy(dx: -50, dy: -50).contains(touchLocation) {
             guard movePlayerArea == nil

@@ -5,7 +5,6 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
     let borderNode: SKNode
     let groundNode: SKNode
     let playerNode: SKNode
-    var hitAreaNode: SKNode?
 
     let ballHit: (SKNode) -> Void
     let playerTouched: (SKNode) -> Void
@@ -49,7 +48,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
     func collisionBetween(ball: SKNode, object: SKNode) {
         if object === playerNode {
             playerTouched(ball)
-        } else if object === hitAreaNode {
+        } else if object.name == NodeName.hitArea.rawValue {
             ballHit(ball)
         } else if object === borderNode {
             // balls can be stuck to the border if they haven't enough velocity

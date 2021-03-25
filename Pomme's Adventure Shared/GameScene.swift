@@ -4,6 +4,7 @@ class GameScene: SKScene {
     var physicsContact: PhysicsContact?
     let player = Player()
     let ball = Ball()
+    let hit = Hit()
 
     let errorSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
     var ground: SKSpriteNode {

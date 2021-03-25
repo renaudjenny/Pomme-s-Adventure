@@ -1,61 +1,77 @@
 import SpriteKit
 
-extension GameScene {
-    var hitArea: SKSpriteNode? {
-        children.first(where: { $0.name == NodeName.hitArea.rawValue }) as? SKSpriteNode
+struct Hit {
+    private func hitArea(size: CGSize, position: CGPoint) -> SKSpriteNode {
+        let area = SKSpriteNode(color: .white, size: size)
+        area.position = position
+        area.zPosition = ZPosition.hitArea.rawValue
+        area.name = NodeName.hitArea.rawValue
+        area.physicsBody = SKPhysicsBody(rectangleOf: size)
+        area.physicsBody?.isDynamic = false
+        area.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
+        area.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
+        area.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
+        return area
     }
 
-    func hit(location: CGPoint) {
-        hit(direction: player.direction(from: location))
+    func area(location: CGPoint, player: Player) -> SKSpriteNode {
+        area(direction: player.direction(from: location), player: player)
     }
 
-    private func hit(direction: Direction) {
-        let hitArea: SKSpriteNode
+    func area(direction: Direction, player: Player) -> SKSpriteNode {
+        let area: SKSpriteNode
         let size: CGFloat = 100
+        let playerFrame = player.node.frame
         switch direction {
         case .topLeft:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size * 3/4, height: size * 3/4))
-            hitArea.position = CGPoint(x: player.node.frame.midX - 20, y: player.node.frame.midY + 20)
+            area = hitArea(
+                size: CGSize(width: size * 3/4, height: size * 3/4),
+                position: CGPoint(x: playerFrame.midX - 20, y: playerFrame.midY + 20)
+            )
         case .top:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size, height: size/2))
-            hitArea.position = CGPoint(x: player.node.frame.midX, y: player.node.frame.midY + 40)
+            area = hitArea(
+                size: CGSize(width: size, height: size/2),
+                position: CGPoint(x: playerFrame.midX, y: playerFrame.midY + 40)
+            )
         case .topRight:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size * 3/4, height: size * 3/4))
-            hitArea.position = CGPoint(x: player.node.frame.midX + 20, y: player.node.frame.midY + 20)
+            area = hitArea(
+                size: CGSize(width: size * 3/4, height: size * 3/4),
+                position: CGPoint(x: playerFrame.midX + 20, y: playerFrame.midY + 20)
+            )
         case .right:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size/2, height: size))
-            hitArea.position = CGPoint(x: player.node.frame.midX + 40, y: player.node.frame.midY)
+            area = hitArea(
+                size: CGSize(width: size/2, height: size),
+                position: CGPoint(x: playerFrame.midX + 40, y: playerFrame.midY)
+            )
         case .bottomRight:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size * 3/4, height: size * 3/4))
-            hitArea.position = CGPoint(x: player.node.frame.midX + 20, y: player.node.frame.midY - 20)
+            area = hitArea(
+                size: CGSize(width: size * 3/4, height: size * 3/4),
+                position: CGPoint(x: playerFrame.midX + 20, y: playerFrame.midY - 20)
+            )
         case .bottom:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size, height: size/2))
-            hitArea.position = CGPoint(x: player.node.frame.midX, y: player.node.frame.midY - 40)
+            area = hitArea(
+                size: CGSize(width: size, height: size/2),
+                position: CGPoint(x: playerFrame.midX, y: playerFrame.midY - 40)
+            )
         case .bottomLeft:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size * 3/4, height: size * 3/4))
-            hitArea.position = CGPoint(x: player.node.frame.midX - 20, y: player.node.frame.midY - 20)
+            area = hitArea(
+                size: CGSize(width: size * 3/4, height: size * 3/4),
+                position: CGPoint(x: playerFrame.midX - 20, y: playerFrame.midY - 20)
+            )
         case .left:
-            hitArea = SKSpriteNode(color: .white, size: CGSize(width: size/2, height: size))
-            hitArea.position = CGPoint(x: player.node.frame.midX - 40, y: player.node.frame.midY)
+            area = hitArea(
+                size: CGSize(width: size/2, height: size),
+                position: CGPoint(x: playerFrame.midX - 40, y: playerFrame.midY)
+            )
         }
-        hitArea.zPosition = ZPosition.hitArea.rawValue
-        hitArea.name = NodeName.hitArea.rawValue
-        hitArea.run(SKAction.sequence([
+        area.run(SKAction.sequence([
             SKAction.wait(forDuration: 0.2),
             SKAction.fadeOut(withDuration: 0.3),
             SKAction.removeFromParent(),
         ]))
-        hitArea.physicsBody = SKPhysicsBody(rectangleOf: hitArea.frame.size)
-        hitArea.physicsBody?.isDynamic = false
-        hitArea.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
-        hitArea.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
-        hitArea.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
-        addChild(hitArea)
 
-        physicsContact?.hitAreaNode = hitArea
-
-        // TODO: Hit should be triggered by the player at the end of the day...
         player.node.run(SKAction.rotate(toAngle: direction.angle, duration: 0.1, shortestUnitArc: true))
-    }
 
+        return area
+    }
 }
