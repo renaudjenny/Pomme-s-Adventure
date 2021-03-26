@@ -8,6 +8,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 
     let ballHit: (SKNode) -> Void
     let playerTouched: (SKNode) -> Void
+    let bonusGathered: (SKNode) -> Void
 
     init(
         collisionBetweenMovePlayerAreaAndPlayer: @escaping () -> Void,
@@ -15,7 +16,8 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
         groundNode: SKNode,
         playerNode: SKNode,
         ballHit: @escaping (SKNode) -> Void,
-        playerTouched: @escaping (SKNode) -> Void
+        playerTouched: @escaping (SKNode) -> Void,
+        bonusGathered: @escaping (SKNode) -> Void
     ) {
         self.collisionBetweenMovePlayerAreaAndPlayer = collisionBetweenMovePlayerAreaAndPlayer
         self.borderNode = borderNode
@@ -23,6 +25,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
         self.playerNode = playerNode
         self.ballHit = ballHit
         self.playerTouched = playerTouched
+        self.bonusGathered = bonusGathered
         super.init()
     }
 
@@ -36,6 +39,10 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
             collisionBetween(ball: nodeA, object: nodeB)
         case (_, NodeName.ball.rawValue):
             collisionBetween(ball: nodeB, object: nodeA)
+        case (NodeName.bonus.rawValue, _):
+            bonusGathered(nodeA)
+        case (_, NodeName.bonus.rawValue):
+            bonusGathered(nodeB)
         #if os(iOS) || os(tvOS)
         case (NodeName.movePlayerArea.rawValue, _),
              (_, NodeName.movePlayerArea.rawValue):
@@ -85,5 +92,10 @@ extension GameScene {
     func playerTouched(by node: SKNode) {
         ball.remove(ball: node)
         gameOver()
+    }
+
+    func bonusGathered(_ node: SKNode) {
+        score += 500
+        node.removeFromParent()
     }
 }

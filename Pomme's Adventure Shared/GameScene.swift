@@ -5,6 +5,7 @@ class GameScene: SKScene {
     let player = Player()
     let ball = Ball()
     let hit = Hit()
+    let bonus = Bonus()
 
     let errorSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
     var ground: SKSpriteNode {
@@ -72,7 +73,8 @@ class GameScene: SKScene {
             groundNode: ground,
             playerNode: player.node,
             ballHit: removeBall,
-            playerTouched: playerTouched
+            playerTouched: playerTouched,
+            bonusGathered: bonusGathered
         )
 
         let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 60).size)
@@ -108,6 +110,7 @@ class GameScene: SKScene {
         run(SKAction.sequence([
             SKAction.wait(forDuration: 2),
             SKAction.run(repeatAddBall),
+            SKAction.run(repeatAddBonuses),
         ]))
     }
 

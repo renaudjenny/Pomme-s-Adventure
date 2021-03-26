@@ -53,6 +53,7 @@ extension GameScene {
             score = 0
             level = 1
             repeatAddBall()
+            repeatAddBonuses()
         }
     }
 

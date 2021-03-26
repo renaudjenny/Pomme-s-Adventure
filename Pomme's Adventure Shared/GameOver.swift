@@ -7,6 +7,7 @@ extension GameScene {
 
     func gameOver() {
         removeAction(forKey: Ball.repeatAddBallActionKey)
+        removeAction(forKey: Bonus.repeatAddBonusActionKey)
         children
             .filter { $0.name == NodeName.ball.rawValue }
             .forEach { $0.removeFromParent() }
