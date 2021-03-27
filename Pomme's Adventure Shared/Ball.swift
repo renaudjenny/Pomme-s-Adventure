@@ -2,22 +2,11 @@ import SpriteKit
 
 struct Ball {
     static let repeatAddBallActionKey = "ActionRepeatAddBall"
-    let redAppleTextures: [SKTexture] = [
-        SKTexture(imageNamed: "Red-apple"),
-        SKTexture(imageNamed: "Red-apple-sliced-1"),
-        SKTexture(imageNamed: "Red-apple-sliced-2"),
-        SKTexture(imageNamed: "Red-apple-sliced-3"),
-    ]
-
-    let greenAppleTextures: [SKTexture] = [
-        SKTexture(imageNamed: "Green-apple"),
-        SKTexture(imageNamed: "Green-apple-sliced-1"),
-        SKTexture(imageNamed: "Green-apple-sliced-2"),
-        SKTexture(imageNamed: "Green-apple-sliced-3"),
-    ]
 
     func addBall(addChild: (SKNode) -> Void, allowedAreas: [CGRect]) {
-        let ball = SKSpriteNode(texture: Bool.random() ? redAppleTextures.first : greenAppleTextures.first)
+        guard let appleType = AppleType.allCases.randomElement()
+        else { return }
+        let ball = SKSpriteNode(texture: appleType.textures.first)
         ball.size = CGSize(width: 20, height: 20)
 
         let delta: (dx: CGFloat, dy: CGFloat) = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
@@ -54,24 +43,56 @@ struct Ball {
     }
 
     func remove(ball: SKNode) {
-        let appleSlideAnimationTextures: [SKTexture]
-        let sprite = ball as? SKSpriteNode
-        switch sprite?.texture {
-        case .some(redAppleTextures.first):
-            appleSlideAnimationTextures = redAppleTextures
-        case .some(greenAppleTextures.first):
-            appleSlideAnimationTextures = greenAppleTextures
-        default:
-            appleSlideAnimationTextures = []
-        }
+        guard let appleType = AppleType(node: ball)
+        else { return }
         ball.physicsBody?.contactTestBitMask = 0
         ball.physicsBody?.categoryBitMask = 0
         ball.physicsBody?.velocity = .zero
         ball.run(SKAction.sequence([
-            SKAction.animate(with: appleSlideAnimationTextures, timePerFrame: 0.1),
+            SKAction.animate(with: appleType.textures, timePerFrame: 0.1),
             SKAction.fadeOut(withDuration: 0.2),
             SKAction.removeFromParent(),
         ]))
+    }
+}
+
+extension Ball {
+    enum AppleType: CaseIterable {
+        case green
+        case red
+
+        static let greenAppleTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Green-apple"),
+            SKTexture(imageNamed: "Green-apple-sliced-1"),
+            SKTexture(imageNamed: "Green-apple-sliced-2"),
+            SKTexture(imageNamed: "Green-apple-sliced-3"),
+        ]
+
+        static let redAppleTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Red-apple"),
+            SKTexture(imageNamed: "Red-apple-sliced-1"),
+            SKTexture(imageNamed: "Red-apple-sliced-2"),
+            SKTexture(imageNamed: "Red-apple-sliced-3"),
+        ]
+
+        var textures: [SKTexture] {
+            switch self {
+            case .green: return Self.greenAppleTextures
+            case .red: return Self.redAppleTextures
+            }
+        }
+
+        init?(node: SKNode) {
+            guard let sprite = node as? SKSpriteNode,
+                  let texture = sprite.texture
+            else { return nil }
+
+            switch texture {
+            case Self.greenAppleTextures.first: self = .green
+            case Self.redAppleTextures.first: self = .red
+            default: return nil
+            }
+        }
     }
 }
 

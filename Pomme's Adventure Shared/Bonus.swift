@@ -4,8 +4,11 @@ struct Bonus {
     static let repeatAddBonusActionKey = "ActionRepeatAddBonus"
 
     func addBonus(addChild: (SKNode) -> Void, area: CGRect) {
-        let size = CGSize(width: 40, height: 50)
-        let node = SKSpriteNode(color: .yellow, size: size)
+        let size = CGSize(width: 50, height: 85)
+        guard let gemType = GemType.allCases.randomElement()
+        else { return }
+
+        let node = SKSpriteNode(texture: gemType.textures.first, size: size)
         node.name = NodeName.bonus.rawValue
         let area = area.insetBy(dx: size.width/2, dy: size.height/2)
 
@@ -25,6 +28,8 @@ struct Bonus {
 
         addChild(node)
 
+        node.run(SKAction.repeatForever(SKAction.animate(with: gemType.textures, timePerFrame: 0.2)))
+
         node.run(SKAction.sequence([
             SKAction.fadeIn(withDuration: 1),
             SKAction.wait(forDuration: 5),
@@ -36,13 +41,36 @@ struct Bonus {
         bonus.run(SKAction.sequence([
             SKAction.repeat(SKAction.sequence([
                 SKAction.fadeOut(withDuration: 0.1),
-                SKAction.wait(forDuration: 0.5),
+                SKAction.wait(forDuration: 0.2),
                 SKAction.fadeIn(withDuration: 0.1),
-                SKAction.wait(forDuration: 0.5),
+                SKAction.wait(forDuration: 0.2),
             ]),
-            count: 5),
+            count: 6),
             SKAction.removeFromParent(),
         ]))
+    }
+}
+
+extension Bonus {
+    enum GemType: CaseIterable {
+        case blue
+        case purple
+
+        static let blueGemTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Blue-gem-1"),
+            SKTexture(imageNamed: "Blue-gem-2"),
+        ]
+        static let purpleGemTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Purple-gem-1"),
+            SKTexture(imageNamed: "Purple-gem-2"),
+        ]
+
+        var textures: [SKTexture] {
+            switch self {
+            case .blue: return Self.blueGemTextures
+            case .purple: return Self.purpleGemTextures
+            }
+        }
     }
 }
 
