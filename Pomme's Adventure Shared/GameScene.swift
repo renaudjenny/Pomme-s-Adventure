@@ -12,9 +12,6 @@ class GameScene: SKScene {
         children.first(where: { $0.name == NodeName.ground.rawValue }) as? SKSpriteNode
             ?? errorSpriteNode
     }
-    var center: CGPoint {
-        CGPoint(x: ground.frame.midX, y: ground.frame.midY)
-    }
     var scoreLabel: SKLabelNode {
         children.first(where: { $0.name == NodeName.score.rawValue }) as? SKLabelNode
             ?? SKLabelNode(text: "ERROR")
@@ -37,28 +34,6 @@ class GameScene: SKScene {
         }
     }
     var isGameOver = false
-
-    var allowedBallAppearAreas: [CGRect] {
-        let groundFrame = ground.frame.insetBy(dx: 30, dy: 30)
-        let playerFrame = player.node.frame.insetBy(dx: -50, dy: -50)
-
-        let (left, _) = groundFrame.divided(atDistance: playerFrame.minX - groundFrame.minX, from: .minXEdge)
-        let (right, _) = groundFrame.divided(atDistance: groundFrame.maxX - playerFrame.maxX, from: .maxXEdge)
-        let (bottom, _) = groundFrame.divided(atDistance: playerFrame.minY - groundFrame.minY, from: .minYEdge)
-        let (top, _) = groundFrame.divided(atDistance: groundFrame.maxY - playerFrame.maxY, from: .maxYEdge)
-
-        // Debug code for the safe area
-//        [(left, SKColor.blue), (right, SKColor.green), (bottom, SKColor.yellow), (top, SKColor.red)].forEach { rect, color in
-//            let test = SKSpriteNode(color: color.withAlphaComponent(2/3), size: rect.size)
-//            test.anchorPoint = .zero
-//            test.position = rect.origin
-//            self.addChild(test)
-//            test.run(SKAction.sequence([SKAction.fadeOut(withDuration: 6), SKAction.removeFromParent()]))
-//        }
-
-        return [left, right, bottom, top]
-            .filter { !$0.isEmpty }
-    }
 
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)
@@ -84,7 +59,7 @@ class GameScene: SKScene {
         addChild(ground)
 
         addChild(player.node)
-        player.node.position = center
+        player.node.position = ground.frame.center
 
         let scoreLabel = SKLabelNode(text: "Score: 0")
         scoreLabel.position = CGPoint(x: frame.minX + 20, y: frame.minY + 20)

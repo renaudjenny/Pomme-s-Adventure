@@ -85,7 +85,9 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 
 extension GameScene {
     func removeBall(_ node: SKNode) {
-        score += 100
+        guard let appleType = Ball.AppleType(node: node)
+        else { return }
+        score += appleType.points
         ball.remove(ball: node)
     }
 

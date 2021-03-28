@@ -49,7 +49,7 @@ extension GameScene {
             // Start new game
             gameOverLabel?.removeFromParent()
             isGameOver = false
-            player.fall(resurrectionPosition: center)
+            player.fall(resurrectionPosition: ground.frame.center)
             score = 0
             level = 1
             repeatAddBall()

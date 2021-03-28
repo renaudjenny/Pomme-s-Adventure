@@ -3,22 +3,26 @@ import SpriteKit
 struct Ball {
     static let repeatAddBallActionKey = "ActionRepeatAddBall"
 
-    func addBall(addChild: (SKNode) -> Void, allowedAreas: [CGRect]) {
-        guard let appleType = AppleType.allCases.randomElement()
-        else { return }
+    func addBall(addChild: (SKNode) -> Void, to location: CGPoint, allowedAreas: [CGRect]) {
+        let appleType = AppleType.random()
         let ball = SKSpriteNode(texture: appleType.textures.first)
         ball.size = CGSize(width: 20, height: 20)
-
-        let delta: (dx: CGFloat, dy: CGFloat) = [(1, 1), (-1, 1), (1, -1), (-1, -1)]
-            .randomElement() ?? (.zero, .zero)
-        let impulseFactor: CGFloat = 4
-        let impulse = CGVector(dx: impulseFactor * delta.dx, dy: impulseFactor * delta.dy)
 
         let area = allowedAreas.randomElement() ?? .zero
 
         let position = CGPoint(
             x: CGFloat.random(in: area.minX...area.maxX),
             y: CGFloat.random(in: area.minY...area.maxY)
+        )
+
+        let x: CGFloat = location.x - position.x
+        let y: CGFloat = location.y - position.y
+        let angle: CGFloat = atan2(x, y)
+        let dx: CGFloat = sin(angle)
+        let dy: CGFloat = cos(angle)
+        let impulse = CGVector(
+            dx: appleType.impulseFactor * dx,
+            dy: appleType.impulseFactor * dy
         )
 
         ball.position = position
@@ -36,9 +40,10 @@ struct Ball {
 
         addChild(ball)
 
+        ball.alpha = 0
         ball.run(SKAction.sequence([
             SKAction.fadeIn(withDuration: 1.4),
-            SKAction.applyImpulse(impulse, duration: 0.5),
+            SKAction.applyImpulse(impulse, duration: 1),
         ]))
     }
 
@@ -93,6 +98,28 @@ extension Ball {
             default: return nil
             }
         }
+
+        static func random() -> Self {
+            let randomNumber = Int.random(in: 0...100)
+            switch randomNumber {
+            case ..<20: return .red
+            default: return .green
+            }
+        }
+
+        var impulseFactor: CGFloat {
+            switch self {
+            case .green: return 2
+            case .red: return 4
+            }
+        }
+
+        var points: Int {
+            switch self {
+            case .green: return 100
+            case .red: return 200
+            }
+        }
     }
 }
 
@@ -109,6 +136,29 @@ extension GameScene {
     }
 
     private func addNewBall() {
-        ball.addBall(addChild: addChild, allowedAreas: allowedBallAppearAreas)
+        ball.addBall(addChild: addChild, to: player.node.frame.center, allowedAreas: allowedBallAppearAreas)
     }
+
+    var allowedBallAppearAreas: [CGRect] {
+        let groundFrame = ground.frame.insetBy(dx: 40, dy: 40)
+        let playerFrame = player.node.frame.insetBy(dx: -50, dy: -50)
+
+        let (left, _) = groundFrame.divided(atDistance: playerFrame.minX - groundFrame.minX, from: .minXEdge)
+        let (right, _) = groundFrame.divided(atDistance: groundFrame.maxX - playerFrame.maxX, from: .maxXEdge)
+        let (bottom, _) = groundFrame.divided(atDistance: playerFrame.minY - groundFrame.minY, from: .minYEdge)
+        let (top, _) = groundFrame.divided(atDistance: groundFrame.maxY - playerFrame.maxY, from: .maxYEdge)
+
+        // Debug code for the safe area
+        //        [(left, SKColor.blue), (right, SKColor.green), (bottom, SKColor.yellow), (top, SKColor.red)].forEach { rect, color in
+        //            let test = SKSpriteNode(color: color.withAlphaComponent(2/3), size: rect.size)
+        //            test.anchorPoint = .zero
+        //            test.position = rect.origin
+        //            self.addChild(test)
+        //            test.run(SKAction.sequence([SKAction.fadeOut(withDuration: 6), SKAction.removeFromParent()]))
+        //        }
+
+        return [left, right, bottom, top]
+            .filter { !$0.isEmpty }
+    }
+
 }
