@@ -53,9 +53,14 @@ struct Bonus {
 
 extension Bonus {
     enum GemType: CaseIterable {
+        case green
         case blue
         case purple
 
+        static let greenGemTextures: [SKTexture] = [
+            SKTexture(imageNamed: "Green-gem-1"),
+            SKTexture(imageNamed: "Green-gem-2"),
+        ]
         static let blueGemTextures: [SKTexture] = [
             SKTexture(imageNamed: "Blue-gem-1"),
             SKTexture(imageNamed: "Blue-gem-2"),
@@ -67,6 +72,7 @@ extension Bonus {
 
         var textures: [SKTexture] {
             switch self {
+            case .green: return Self.greenGemTextures
             case .blue: return Self.blueGemTextures
             case .purple: return Self.purpleGemTextures
             }

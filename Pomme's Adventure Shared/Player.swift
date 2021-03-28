@@ -1,6 +1,8 @@
 import SpriteKit
 
 struct Player {
+    static let repeatMovementAnimationActionKey = "PlayerRepeatAnimationMovementActionKey"
+
     let node: SKSpriteNode
     let movementTextures: [SKTexture] = [
         SKTexture(imageNamed: "Pomme-move"),
@@ -33,12 +35,15 @@ struct Player {
         let y: CGFloat = location.y - node.frame.midY
         let factor: CGFloat = 2
 
+        if node.physicsBody?.velocity == .zero {
+            node.run(SKAction.repeatForever(
+                SKAction.animate(with: movementTextures, timePerFrame: 1/12)
+            ), withKey: Player.repeatMovementAnimationActionKey)
+        }
+
         node.physicsBody?.velocity = CGVector(dx: x * factor, dy: y * factor)
 
-        node.run(SKAction.group([
-            SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true),
-            SKAction.animate(with: movementTextures, timePerFrame: 0.2)
-        ]))
+        node.run(SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true))
     }
 
     func move(toDirection direction: Direction) {
@@ -65,6 +70,7 @@ struct Player {
 
     func stopMoving() {
         node.physicsBody?.velocity = .zero
+        node.removeAction(forKey: Player.repeatMovementAnimationActionKey)
         node.run(SKAction.sequence([
             SKAction.wait(forDuration: 0.6),
             SKAction.setTexture(SKTexture(imageNamed: "Pomme-static")),
