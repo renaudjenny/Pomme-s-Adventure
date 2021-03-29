@@ -5,8 +5,9 @@ struct Player {
 
     let node: SKSpriteNode
     let movementTextures: [SKTexture] = [
-        SKTexture(imageNamed: "Pomme-move"),
-        SKTexture(imageNamed: "Pomme-move-2")
+        SKTexture(imageNamed: "Pomme-Hair-1"),
+        SKTexture(imageNamed: "Pomme-Hair-2"),
+        SKTexture(imageNamed: "Pomme-Hair-3"),
     ]
 
     var safeArea: CGRect {
@@ -19,7 +20,7 @@ struct Player {
     }
 
     init() {
-        node = SKSpriteNode(imageNamed: "Pomme-static")
+        node = SKSpriteNode(imageNamed: "Pomme")
 
         node.size = CGSize(width: 50, height: 50)
         node.zPosition = ZPosition.player.rawValue
@@ -42,6 +43,7 @@ struct Player {
         }
 
         node.physicsBody?.velocity = CGVector(dx: x * factor, dy: y * factor)
+        node.physicsBody?.angularVelocity = 0
 
         node.run(SKAction.rotate(toAngle: atan2(y, x) + .pi/2, duration: 0.1, shortestUnitArc: true))
     }
@@ -73,7 +75,7 @@ struct Player {
         node.removeAction(forKey: Player.repeatMovementAnimationActionKey)
         node.run(SKAction.sequence([
             SKAction.wait(forDuration: 0.6),
-            SKAction.setTexture(SKTexture(imageNamed: "Pomme-static")),
+            SKAction.setTexture(SKTexture(imageNamed: "Pomme")),
         ]))
     }
 

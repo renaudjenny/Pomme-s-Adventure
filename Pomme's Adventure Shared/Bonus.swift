@@ -4,7 +4,7 @@ struct Bonus {
     static let repeatAddBonusActionKey = "ActionRepeatAddBonus"
 
     func addBonus(addChild: (SKNode) -> Void, area: CGRect) {
-        let size = CGSize(width: 50, height: 85)
+        let size = CGSize(width: 15, height: 30)
         guard let gemType = GemType.allCases.randomElement()
         else { return }
 
