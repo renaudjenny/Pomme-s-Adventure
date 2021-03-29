@@ -6,6 +6,7 @@ struct Ball {
     func addBall(addChild: (SKNode) -> Void, to location: CGPoint, allowedAreas: [CGRect]) {
         let appleType = AppleType.random()
         let ball = SKSpriteNode(texture: appleType.textures.first)
+        ball.name = appleType.name
         ball.size = CGSize(width: 20, height: 20)
 
         let area = allowedAreas.randomElement() ?? .zero
@@ -27,7 +28,6 @@ struct Ball {
 
         ball.position = position
         ball.zPosition = ZPosition.ball.rawValue
-        ball.name = NodeName.ball.rawValue
 
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.frame.width/2)
         ball.physicsBody?.friction = 0
@@ -66,6 +66,21 @@ extension Ball {
         case green
         case red
 
+        init?(node: SKNode) {
+            guard let ball = Self.allCases.first(where: { $0.name == node.name })
+            else { return nil }
+            self = ball
+        }
+
+        var name: String {
+            switch self {
+            case .green: return "ball_apple_green"
+            case .red: return "ball_apple_red"
+            }
+        }
+
+        static var names: [String] { Self.allCases.map(\.name) }
+
         static let greenAppleTextures: [SKTexture] = [
             SKTexture(imageNamed: "Green-apple"),
             SKTexture(imageNamed: "Green-apple-sliced-1"),
@@ -84,18 +99,6 @@ extension Ball {
             switch self {
             case .green: return Self.greenAppleTextures
             case .red: return Self.redAppleTextures
-            }
-        }
-
-        init?(node: SKNode) {
-            guard let sprite = node as? SKSpriteNode,
-                  let texture = sprite.texture
-            else { return nil }
-
-            switch texture {
-            case Self.greenAppleTextures.first: self = .green
-            case Self.redAppleTextures.first: self = .red
-            default: return nil
             }
         }
 

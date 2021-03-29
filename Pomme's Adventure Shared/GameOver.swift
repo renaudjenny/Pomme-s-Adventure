@@ -9,7 +9,7 @@ extension GameScene {
         removeAction(forKey: Ball.repeatAddBallActionKey)
         removeAction(forKey: Bonus.repeatAddBonusActionKey)
         children
-            .filter { $0.name == NodeName.ball.rawValue }
+            .filter(isNodeToRemoveAfterGameOver)
             .forEach { $0.removeFromParent() }
         isGameOver = true
 
@@ -27,5 +27,13 @@ extension GameScene {
         ]))
         label.position = CGPoint(x: ground.frame.midX, y: ground.frame.midY)
         addChild(label)
+    }
+
+    private func isNodeToRemoveAfterGameOver(_ node: SKNode) -> Bool {
+        guard let name = node.name
+        else { return false }
+        return
+            Ball.AppleType.names.contains(name)
+            || Bonus.GemType.names.contains(name)
     }
 }

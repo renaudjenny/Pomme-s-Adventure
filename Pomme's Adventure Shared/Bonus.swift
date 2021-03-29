@@ -5,11 +5,10 @@ struct Bonus {
 
     func addBonus(addChild: (SKNode) -> Void, area: CGRect) {
         let size = CGSize(width: 15, height: 30)
-        guard let gemType = GemType.allCases.randomElement()
-        else { return }
+        let gemType = GemType.random()
 
         let node = SKSpriteNode(texture: gemType.textures.first, size: size)
-        node.name = NodeName.bonus.rawValue
+        node.name = gemType.name
         let area = area.insetBy(dx: size.width/2, dy: size.height/2)
 
         let position = CGPoint(
@@ -57,6 +56,22 @@ extension Bonus {
         case blue
         case purple
 
+        init?(node: SKNode) {
+            guard let bonus = Self.allCases.first(where: { $0.name == node.name })
+            else { return nil }
+            self = bonus
+        }
+
+        var name: String {
+            switch self {
+            case .green: return "bonus_gem_green"
+            case .blue: return "bonus_gem_blue"
+            case .purple: return "bonus_gem_purple"
+            }
+        }
+
+        static var names: [String] { Self.allCases.map(\.name) }
+
         static let greenGemTextures: [SKTexture] = [
             SKTexture(imageNamed: "Green-gem-1"),
             SKTexture(imageNamed: "Green-gem-2"),
@@ -75,6 +90,23 @@ extension Bonus {
             case .green: return Self.greenGemTextures
             case .blue: return Self.blueGemTextures
             case .purple: return Self.purpleGemTextures
+            }
+        }
+
+        static func random() -> Self {
+            let randomNumber = Int.random(in: 0...100)
+            switch randomNumber {
+            case ..<10: return .purple
+            case 10..<30: return .blue
+            default: return .green
+            }
+        }
+
+        var points: Int {
+            switch self {
+            case .green: return 500
+            case .blue: return 1000
+            case .purple: return 2000
             }
         }
     }

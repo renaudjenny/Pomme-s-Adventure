@@ -35,13 +35,13 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
         else { return }
 
         switch (nodeA.name, nodeB.name) {
-        case (NodeName.ball.rawValue, _):
+        case let (.some(ballName), _) where Ball.AppleType.names.contains(ballName):
             collisionBetween(ball: nodeA, object: nodeB)
-        case (_, NodeName.ball.rawValue):
+        case let (_, .some(ballName)) where Ball.AppleType.names.contains(ballName):
             collisionBetween(ball: nodeB, object: nodeA)
-        case (NodeName.bonus.rawValue, _):
+        case (let .some(bonusName), _) where Bonus.GemType.names.contains(bonusName):
             bonusGathered(nodeA)
-        case (_, NodeName.bonus.rawValue):
+        case (_, let .some(bonusName)) where Bonus.GemType.names.contains(bonusName):
             bonusGathered(nodeB)
         #if os(iOS) || os(tvOS)
         case (NodeName.movePlayerArea.rawValue, _),
@@ -97,7 +97,9 @@ extension GameScene {
     }
 
     func bonusGathered(_ node: SKNode) {
-        score += 500
+        guard let gemType = Bonus.GemType(node: node)
+        else { return }
+        score += gemType.points
         node.removeFromParent()
     }
 }
