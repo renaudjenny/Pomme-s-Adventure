@@ -55,6 +55,10 @@ extension GameScene {
             repeatAddBall()
             repeatAddBonuses()
         }
+
+        if scoreLabel.frame.contains(touchLocation) {
+            addChild(Spell.castBubble(on: player))
+        }
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
