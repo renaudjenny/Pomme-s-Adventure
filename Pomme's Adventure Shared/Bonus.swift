@@ -70,7 +70,7 @@ extension Bonus {
             }
         }
 
-        static var names: [String] { Self.allCases.map(\.name) }
+        static let names: [String] = Self.allCases.map(\.name)
 
         static let greenGemTextures: [SKTexture] = [
             SKTexture(imageNamed: "Green-gem-1"),

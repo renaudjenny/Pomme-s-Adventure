@@ -35,5 +35,6 @@ extension GameScene {
         return
             Ball.AppleType.names.contains(name)
             || Bonus.GemType.names.contains(name)
+            || name == Bubble.name
     }
 }

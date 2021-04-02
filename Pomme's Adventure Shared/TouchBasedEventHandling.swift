@@ -57,7 +57,10 @@ extension GameScene {
         }
 
         if scoreLabel.frame.contains(touchLocation) {
-            addChild(Spell.castBubble(on: player))
+            spell.bubble.cast(on: player)
+            if childNode(withName: Bubble.name) == nil {
+                addChild(spell.bubble.node)
+            }
         }
     }
 

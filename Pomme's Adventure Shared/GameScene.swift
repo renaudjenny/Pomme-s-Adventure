@@ -35,6 +35,8 @@ class GameScene: SKScene {
     }
     var isGameOver = false
 
+    var spell = Spell()
+
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)
         scene.scaleMode = .aspectFill
@@ -49,6 +51,7 @@ class GameScene: SKScene {
             playerNode: player.node,
             ballHit: removeBall,
             playerTouched: playerTouched,
+            bubbleTouched: bubbleTouched,
             bonusGathered: bonusGathered
         )
 

@@ -8,6 +8,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 
     let ballHit: (SKNode) -> Void
     let playerTouched: (SKNode) -> Void
+    let bubbleTouched: (SKNode) -> Void
     let bonusGathered: (SKNode) -> Void
 
     init(
@@ -17,6 +18,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
         playerNode: SKNode,
         ballHit: @escaping (SKNode) -> Void,
         playerTouched: @escaping (SKNode) -> Void,
+        bubbleTouched: @escaping (SKNode) -> Void,
         bonusGathered: @escaping (SKNode) -> Void
     ) {
         self.collisionBetweenMovePlayerAreaAndPlayer = collisionBetweenMovePlayerAreaAndPlayer
@@ -25,6 +27,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
         self.playerNode = playerNode
         self.ballHit = ballHit
         self.playerTouched = playerTouched
+        self.bubbleTouched = bubbleTouched
         self.bonusGathered = bonusGathered
         super.init()
     }
@@ -55,8 +58,10 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
     func collisionBetween(ball: SKNode, object: SKNode) {
         if object === playerNode {
             playerTouched(ball)
-        } else if object.name == NodeName.hitArea.rawValue || object.name == Spell.bubble.name {
+        } else if object.name == NodeName.hitArea.rawValue {
             ballHit(ball)
+        } else if object.name == Bubble.name {
+            bubbleTouched(ball)
         } else if object === borderNode {
             // balls can be stuck to the border if they haven't enough velocity
             // In this case, let's them bonce in direction to the center with
@@ -94,6 +99,11 @@ extension GameScene {
     func playerTouched(by node: SKNode) {
         ball.remove(ball: node)
         gameOver()
+    }
+
+    func bubbleTouched(by node: SKNode) {
+        removeBall(node)
+        spell.bubble.hp -= 1
     }
 
     func bonusGathered(_ node: SKNode) {

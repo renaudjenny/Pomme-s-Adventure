@@ -79,7 +79,7 @@ extension Ball {
             }
         }
 
-        static var names: [String] { Self.allCases.map(\.name) }
+        static let names: [String] = Self.allCases.map(\.name)
 
         static let greenAppleTextures: [SKTexture] = [
             SKTexture(imageNamed: "Green-apple"),
