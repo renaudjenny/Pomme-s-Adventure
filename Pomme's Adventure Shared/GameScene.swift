@@ -39,7 +39,7 @@ class GameScene: SKScene {
 
     class func newGameScene() -> GameScene {
         let scene = GameScene(size: UIScreen.main.bounds.size)
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         return scene
     }
     
@@ -55,8 +55,8 @@ class GameScene: SKScene {
             bonusGathered: bonusGathered
         )
 
-        let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 60).size)
-        ground.position = CGPoint(x: frame.midX, y: frame.midY + 50)
+        let ground = SKSpriteNode(color: SKColor.white.withAlphaComponent(0.1), size: frame.insetBy(dx: 10, dy: 90).size)
+        ground.position = CGPoint(x: frame.midX, y: frame.midY + 20)
         ground.zPosition = ZPosition.ground.rawValue
         ground.name = NodeName.ground.rawValue
         addChild(ground)
@@ -65,18 +65,20 @@ class GameScene: SKScene {
         player.node.position = ground.frame.center
 
         let scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: frame.minX + 20, y: frame.minY + 20)
+        scoreLabel.position = CGPoint(x: frame.minX + 20, y: frame.maxY - 40)
         scoreLabel.fontSize = 40
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.name = NodeName.score.rawValue
         addChild(scoreLabel)
 
         let levelLabel = SKLabelNode(text: "Level: 1")
-        levelLabel.position = CGPoint(x: frame.minX + 20, y: scoreLabel.frame.maxY + 20)
-        levelLabel.fontSize = 30
+        levelLabel.position = CGPoint(x: frame.minX + 20, y: scoreLabel.frame.minY - 20)
+        levelLabel.fontSize = 25
         levelLabel.horizontalAlignmentMode = .left
         levelLabel.name = NodeName.level.rawValue
         addChild(levelLabel)
+
+        configureSpellScrolls()
 
         self.name = NodeName.border.rawValue
         physicsBody = SKPhysicsBody(edgeLoopFrom: ground.frame)

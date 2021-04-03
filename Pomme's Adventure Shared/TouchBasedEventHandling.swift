@@ -56,7 +56,7 @@ extension GameScene {
             repeatAddBonuses()
         }
 
-        if scoreLabel.frame.contains(touchLocation) {
+        if spell.waterScroll.contains(touchLocation) {
             spell.bubble.cast(on: player)
             if childNode(withName: Bubble.name) == nil {
                 addChild(spell.bubble.node)
