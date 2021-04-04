@@ -49,7 +49,7 @@ class GameScene: SKScene {
             borderNode: self,
             groundNode: ground,
             playerNode: player.node,
-            ballHit: removeBall,
+            ballHit: ballHit,
             playerTouched: playerTouched,
             bubbleTouched: bubbleTouched,
             bonusGathered: bonusGathered
@@ -86,6 +86,8 @@ class GameScene: SKScene {
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = physicsContact
+
+        startRegeneratingMana()
 
         run(SKAction.sequence([
             SKAction.wait(forDuration: 2),

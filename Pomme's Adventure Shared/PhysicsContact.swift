@@ -89,7 +89,12 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 }
 
 extension GameScene {
-    func removeBall(_ node: SKNode) {
+    func ballHit(node: SKNode) {
+        spell.mana.value += 10
+        removeBall(node)
+    }
+
+    private func removeBall(_ node: SKNode) {
         guard let appleType = Ball.AppleType(node: node)
         else { return }
         score += appleType.points
@@ -103,7 +108,7 @@ extension GameScene {
 
     func bubbleTouched(by node: SKNode) {
         removeBall(node)
-        spell.bubble.hp -= 1
+        spell.bubbleTouched()
     }
 
     func bonusGathered(_ node: SKNode) {

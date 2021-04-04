@@ -1,19 +1,9 @@
 import SpriteKit
 
 struct Spell {
-    static let maxMana = 1000
-    var mp = 0 {
-        didSet {
-            setScrolls()
-            if mp >= Spell.maxMana {
-                mp = Spell.maxMana
-            }
-        }
-    }
+    var mana = Mana() { didSet { setScrolls() } }
 
-    var mana = Mana()
-
-    var bubble = Bubble()
+    private var bubble = Bubble()
 
     let waterScroll: SKShapeNode = {
         let node = SKShapeNode(circleOfRadius: 25)
@@ -27,7 +17,7 @@ struct Spell {
     }()
 
     private func setScrolls() {
-        switch mp {
+        switch mana.value {
         case 100...:
             waterScroll.alpha = 1
         default:
@@ -36,6 +26,20 @@ struct Spell {
         if bubble.isCast {
             waterScroll.alpha = 2/10
         }
+    }
+
+    mutating func castBubble(on player: Player) -> SKNode? {
+        guard mana.value >= Bubble.mp,
+              !bubble.isCast
+        else { return nil }
+        mana.value -= Bubble.mp
+        bubble.cast(on: player)
+        setScrolls()
+        return bubble.node
+    }
+
+    func bubbleTouched() {
+        bubble.hp -= 1
     }
 }
 
@@ -99,7 +103,6 @@ extension GameScene {
         spell.mana.node.position = CGPoint(x: frame.midX, y: frame.minY + 100)
         spell.waterScroll.position = CGPoint(x: frame.minX + 60, y: frame.minY + 60)
 
-        spell.mana.crop.maskNode?.xScale = 0
         addChild(spell.mana.node)
         addChild(spell.waterScroll)
     }

@@ -54,11 +54,12 @@ extension GameScene {
             level = 1
             repeatAddBall()
             repeatAddBonuses()
+            startRegeneratingMana()
         }
 
-        if spell.waterScroll.contains(touchLocation) && !spell.bubble.isCast {
-            spell.bubble.cast(on: player)
-            addChild(spell.bubble.node)
+        if spell.waterScroll.contains(touchLocation),
+           let bubbleNode = spell.castBubble(on: player) {
+            addChild(bubbleNode)
         }
     }
 

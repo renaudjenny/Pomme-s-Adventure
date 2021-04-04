@@ -8,6 +8,8 @@ extension GameScene {
     func gameOver() {
         removeAction(forKey: Ball.repeatAddBallActionKey)
         removeAction(forKey: Bonus.repeatAddBonusActionKey)
+        removeAction(forKey: Mana.repeatRegenerateManaActionKey)
+        spell.mana.value = 0
         children
             .filter(isNodeToRemoveAfterGameOver)
             .forEach { $0.removeFromParent() }
