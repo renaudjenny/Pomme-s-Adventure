@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C0FB757261A607B00062E40 /* Mana.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0FB756261A607B00062E40 /* Mana.swift */; };
 		4C28F54525FD62750065BF13 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F54425FD62750065BF13 /* GameOver.swift */; };
 		4C28F54625FD62750065BF13 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F54425FD62750065BF13 /* GameOver.swift */; };
 		4C28F54725FD62750065BF13 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F54425FD62750065BF13 /* GameOver.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C0FB756261A607B00062E40 /* Mana.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mana.swift; sourceTree = "<group>"; };
 		4C28F54425FD62750065BF13 /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		4C28F56D260142810065BF13 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4C28F5742601444A0065BF13 /* Hit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hit.swift; sourceTree = "<group>"; };
@@ -122,6 +124,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C0FB755261A604200062E40 /* Spell */ = {
+			isa = PBXGroup;
+			children = (
+				4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */,
+				4C0FB756261A607B00062E40 /* Mana.swift */,
+			);
+			path = Spell;
+			sourceTree = "<group>";
+		};
 		4C9F7E832610CEC900FE8FBB /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,21 +155,21 @@
 		4CEE084B25FB7C84005CE252 /* Pomme's Adventure Shared */ = {
 			isa = PBXGroup;
 			children = (
-				4C9F7E832610CEC900FE8FBB /* Extensions */,
 				4CEE084F25FB7C8C005CE252 /* Assets.xcassets */,
 				4CEE089F25FB8046005CE252 /* Ball.swift */,
 				4CEE08C225FB829A005CE252 /* BitMask.swift */,
 				4C28F57F2603E87E0065BF13 /* Bonus.swift */,
 				4CEE08BB25FB822C005CE252 /* Direction.swift */,
+				4C9F7E832610CEC900FE8FBB /* Extensions */,
 				4C28F54425FD62750065BF13 /* GameOver.swift */,
 				4CEE084E25FB7C84005CE252 /* GameScene.swift */,
 				4C28F5742601444A0065BF13 /* Hit.swift */,
 				4CEE08B425FB8209005CE252 /* NodeName.swift */,
 				4CEE08A625FB8144005CE252 /* PhysicsContact.swift */,
 				4C28F56D260142810065BF13 /* Player.swift */,
+				4C0FB755261A604200062E40 /* Spell */,
 				4CEE08C925FB82CF005CE252 /* TouchBasedEventHandling.swift */,
 				4CEE08AD25FB81EA005CE252 /* ZPosition.swift */,
-				4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */,
 			);
 			path = "Pomme's Adventure Shared";
 			sourceTree = "<group>";
@@ -345,6 +356,7 @@
 				4C9F7E852610CEDB00FE8FBB /* CGRect+Center.swift in Sources */,
 				4CEE08A025FB8046005CE252 /* Ball.swift in Sources */,
 				4CEE088825FB7C8C005CE252 /* GameScene.swift in Sources */,
+				4C0FB757261A607B00062E40 /* Mana.swift in Sources */,
 				4C28F56E260142810065BF13 /* Player.swift in Sources */,
 				4C9F7E8D2613CA2B00FE8FBB /* Spell.swift in Sources */,
 				4C28F5802603E87E0065BF13 /* Bonus.swift in Sources */,
