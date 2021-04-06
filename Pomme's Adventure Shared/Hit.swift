@@ -1,9 +1,19 @@
 import SpriteKit
 
-struct Hit {
-    private func hitArea(size: CGSize, position: CGPoint) -> SKSpriteNode {
-        let area = SKSpriteNode(color: .white, size: size)
-        area.position = position
+final class Hit {
+    let textures: [SKTexture] = [
+        SKTexture(imageNamed: "Broom-1"),
+        SKTexture(imageNamed: "Broom-2"),
+        SKTexture(imageNamed: "Broom-3"),
+        SKTexture(imageNamed: "Broom-4"),
+        SKTexture(imageNamed: "Broom-5"),
+    ]
+
+    private func hitArea() -> SKSpriteNode {
+        let size = CGSize(width: 200, height: 125)
+        let area = SKSpriteNode(texture: textures.first, size: size)
+//        let area = SKSpriteNode(color: .white, size: size)
+        area.anchorPoint = CGPoint(x: 0.5, y: 1/6)
         area.zPosition = ZPosition.hitArea.rawValue
         area.name = NodeName.hitArea.rawValue
         area.physicsBody = SKPhysicsBody(rectangleOf: size)
@@ -19,58 +29,17 @@ struct Hit {
     }
 
     func area(direction: Direction, player: Player) -> SKSpriteNode {
-        let area: SKSpriteNode
-        let size: CGFloat = 100
-        let playerFrame = player.node.frame
-        switch direction {
-        case .topLeft:
-            area = hitArea(
-                size: CGSize(width: size * 3/4, height: size * 3/4),
-                position: CGPoint(x: playerFrame.midX - 20, y: playerFrame.midY + 20)
-            )
-        case .top:
-            area = hitArea(
-                size: CGSize(width: size, height: size/2),
-                position: CGPoint(x: playerFrame.midX, y: playerFrame.midY + 40)
-            )
-        case .topRight:
-            area = hitArea(
-                size: CGSize(width: size * 3/4, height: size * 3/4),
-                position: CGPoint(x: playerFrame.midX + 20, y: playerFrame.midY + 20)
-            )
-        case .right:
-            area = hitArea(
-                size: CGSize(width: size/2, height: size),
-                position: CGPoint(x: playerFrame.midX + 40, y: playerFrame.midY)
-            )
-        case .bottomRight:
-            area = hitArea(
-                size: CGSize(width: size * 3/4, height: size * 3/4),
-                position: CGPoint(x: playerFrame.midX + 20, y: playerFrame.midY - 20)
-            )
-        case .bottom:
-            area = hitArea(
-                size: CGSize(width: size, height: size/2),
-                position: CGPoint(x: playerFrame.midX, y: playerFrame.midY - 40)
-            )
-        case .bottomLeft:
-            area = hitArea(
-                size: CGSize(width: size * 3/4, height: size * 3/4),
-                position: CGPoint(x: playerFrame.midX - 20, y: playerFrame.midY - 20)
-            )
-        case .left:
-            area = hitArea(
-                size: CGSize(width: size/2, height: size),
-                position: CGPoint(x: playerFrame.midX - 40, y: playerFrame.midY)
-            )
-        }
+        let area = hitArea()
+        area.position = player.node.position
+        area.zRotation = direction.angle + .pi
         area.run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.2),
-            SKAction.fadeOut(withDuration: 0.3),
+            SKAction.animate(with: textures, timePerFrame: 1/24),
+            SKAction.wait(forDuration: 0.1),
+            SKAction.fadeOut(withDuration: 0.2),
             SKAction.removeFromParent(),
         ]))
 
-        player.node.run(SKAction.rotate(toAngle: direction.angle, duration: 0.1, shortestUnitArc: true))
+        player.node.run(SKAction.rotate(toAngle: direction.angle, duration: 1/60, shortestUnitArc: true))
 
         return area
     }

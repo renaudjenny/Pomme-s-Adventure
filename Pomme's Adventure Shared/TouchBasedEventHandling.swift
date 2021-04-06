@@ -8,6 +8,7 @@ extension GameScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touchLocation = touches.first?.location(in: self),
+              touchLocation != .zero,
               !isGameOver
         else { return }
 
