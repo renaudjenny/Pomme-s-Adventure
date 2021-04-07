@@ -12,7 +12,6 @@ final class Hit {
     private func hitArea() -> SKSpriteNode {
         let size = CGSize(width: 200, height: 125)
         let area = SKSpriteNode(texture: textures.first, size: size)
-//        let area = SKSpriteNode(color: .white, size: size)
         area.anchorPoint = CGPoint(x: 0.5, y: 1/6)
         area.zPosition = ZPosition.hitArea.rawValue
         area.name = NodeName.hitArea.rawValue
@@ -32,6 +31,7 @@ final class Hit {
         let area = hitArea()
         area.position = player.node.position
         area.zRotation = direction.angle + .pi
+        area.constraints = [SKConstraint.distance(SKRange(constantValue: 0), to: player.node)]
         area.run(SKAction.sequence([
             SKAction.animate(with: textures, timePerFrame: 1/24),
             SKAction.wait(forDuration: 0.1),
