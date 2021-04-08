@@ -1,7 +1,7 @@
 import SpriteKit
 
 struct Mana {
-    static let max = 1000
+    static let max = 500
     private static let barHeight: CGFloat = 10
     static let repeatRegenerateManaActionKey = "RepeatRegenerateManaActionKey"
 
@@ -40,7 +40,7 @@ extension GameScene {
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run { [weak self] in
-                    self?.spell.mana.value += 5
+                    self?.spell.mana.value += 1
                 },
                 SKAction.wait(forDuration: 1)
             ])

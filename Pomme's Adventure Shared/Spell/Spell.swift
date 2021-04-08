@@ -18,7 +18,7 @@ struct Spell {
 
     private func setScrolls() {
         switch mana.value {
-        case 100...:
+        case 200...:
             waterScroll.alpha = 1
         default:
             waterScroll.alpha = 2/10
@@ -45,7 +45,7 @@ struct Spell {
 
 final class Bubble {
     static let name = "spell_bubble"
-    static let mp = 100
+    static let mp = 200
     private(set) var isCast = false
     private var isRemoving = false
     let node: SKSpriteNode = {

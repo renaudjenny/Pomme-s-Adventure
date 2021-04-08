@@ -9,13 +9,16 @@ final class Hit {
         SKTexture(imageNamed: "Broom-5"),
     ]
 
-    private func hitArea() -> SKSpriteNode {
+    private func hitArea(playerHeight: CGFloat) -> SKSpriteNode {
         let size = CGSize(width: 200, height: 125)
         let area = SKSpriteNode(texture: textures.first, size: size)
         area.anchorPoint = CGPoint(x: 0.5, y: 1/6)
         area.zPosition = ZPosition.hitArea.rawValue
         area.name = NodeName.hitArea.rawValue
-        area.physicsBody = SKPhysicsBody(rectangleOf: size)
+        area.physicsBody = SKPhysicsBody(
+            rectangleOf: CGSize(width: size.width, height: size.height - playerHeight/2),
+            center: CGPoint(x: 0, y: playerHeight)
+        )
         area.physicsBody?.isDynamic = false
         area.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
         area.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
@@ -28,7 +31,7 @@ final class Hit {
     }
 
     func area(direction: Direction, player: Player) -> SKSpriteNode {
-        let area = hitArea()
+        let area = hitArea(playerHeight: player.node.frame.height)
         area.position = player.node.position
         area.zRotation = direction.angle + .pi
         area.constraints = [SKConstraint.distance(SKRange(constantValue: 0), to: player.node)]

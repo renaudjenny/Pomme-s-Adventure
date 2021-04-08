@@ -90,7 +90,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
 
 extension GameScene {
     func ballHit(node: SKNode) {
-        spell.mana.value += 10
+        spell.mana.value += 5
         removeBall(node)
     }
 
