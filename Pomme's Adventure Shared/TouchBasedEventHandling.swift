@@ -13,6 +13,7 @@ extension GameScene {
         else { return }
 
         addChild(hit.area(location: touchLocation, player: player))
+        spell.fire(player: player, to: player.direction(from: touchLocation), addChild: addChild)
 
         if player.node.frame.insetBy(dx: -50, dy: -50).contains(touchLocation) {
             guard movePlayerArea == nil
@@ -61,6 +62,10 @@ extension GameScene {
         if spell.waterScroll.contains(touchLocation),
            let bubbleNode = spell.castBubble(on: player) {
             addChild(bubbleNode)
+        }
+
+        if spell.fireScroll.contains(touchLocation) {
+            spell.castFireballs()
         }
     }
 

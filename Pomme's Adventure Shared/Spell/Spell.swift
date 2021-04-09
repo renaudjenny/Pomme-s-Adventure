@@ -4,12 +4,24 @@ struct Spell {
     var mana = Mana() { didSet { setScrolls() } }
 
     private var bubble = Bubble()
+    private var fireballs = Fireballs()
 
     let waterScroll: SKShapeNode = {
         let node = SKShapeNode(circleOfRadius: 25)
         node.fillColor = .blue
 
-        let label = SKLabelNode(text: "100")
+        let label = SKLabelNode(text: "200")
+        label.verticalAlignmentMode = .center
+        label.fontSize = 20
+        node.addChild(label)
+        return node
+    }()
+
+    let fireScroll: SKShapeNode = {
+        let node = SKShapeNode(circleOfRadius: 25)
+        node.fillColor = .red
+
+        let label = SKLabelNode(text: "300")
         label.verticalAlignmentMode = .center
         label.fontSize = 20
         node.addChild(label)
@@ -18,10 +30,14 @@ struct Spell {
 
     private func setScrolls() {
         switch mana.value {
-        case 200...:
+        case 200..<300:
             waterScroll.alpha = 1
+        case 300...:
+            waterScroll.alpha = 1
+            fireScroll.alpha = 1
         default:
             waterScroll.alpha = 2/10
+            fireScroll.alpha = 2/10
         }
         if bubble.isCast {
             waterScroll.alpha = 2/10
@@ -41,59 +57,21 @@ struct Spell {
     func bubbleTouched() {
         bubble.hp -= 1
     }
-}
 
-final class Bubble {
-    static let name = "spell_bubble"
-    static let mp = 200
-    private(set) var isCast = false
-    private var isRemoving = false
-    let node: SKSpriteNode = {
-        let node = SKSpriteNode(color: .blue, size: CGSize(width: 60, height: 60))
-        node.name = Bubble.name
-        node.zPosition = ZPosition.spellBubble.rawValue
-        node.alpha = 8/10
-
-        node.physicsBody = SKPhysicsBody(circleOfRadius: 35)
-        node.physicsBody?.categoryBitMask = .spellBubbleCategoryBitMask
-
-        return node
-    }()
-
-    var hp: Int = 0 {
-        didSet {
-            if hp <= 0 {
-                remove()
-                hp = 0
-            }
-        }
+    mutating func castFireballs() {
+        guard mana.value >= Fireballs.mp,
+              !fireballs.isCast
+        else { return }
+        mana.value -= Fireballs.mp
+        fireballs.cast()
+        setScrolls()
     }
 
-    func cast(on player: Player) {
-        guard !isCast
+    func fire(player: Player, to direction: Direction, addChild: @escaping (SKNode) -> Void) {
+        print(fireballs.isCast)
+        guard fireballs.isCast
         else { return }
-        node.constraints = [SKConstraint.distance(SKRange(constantValue: 0), to: player.node)]
-        hp = 5
-        isCast = true
-    }
-
-    private func remove() {
-        guard !isRemoving
-        else { return }
-        isRemoving = true
-        node.run(SKAction.sequence([
-            SKAction.repeat(SKAction.sequence([
-                SKAction.fadeAlpha(to: 2/10, duration: 0.1),
-                SKAction.wait(forDuration: 1/4),
-                SKAction.fadeAlpha(to: 8/10, duration: 0.1),
-                SKAction.wait(forDuration: 1/4),
-            ]), count: 4),
-            SKAction.removeFromParent(),
-        ]), completion: {
-            [weak self] in
-            self?.isCast = false
-            self?.isRemoving = false
-        })
+        fireballs.fire(player: player, to: direction, addChild: addChild)
     }
 }
 
@@ -102,8 +80,10 @@ extension GameScene {
         spell.mana.configure(width: frame.size.width - 40)
         spell.mana.node.position = CGPoint(x: frame.midX, y: frame.minY + 100)
         spell.waterScroll.position = CGPoint(x: frame.minX + 60, y: frame.minY + 60)
+        spell.fireScroll.position = CGPoint(x: frame.midX, y: frame.minY + 60)
 
         addChild(spell.mana.node)
         addChild(spell.waterScroll)
+        addChild(spell.fireScroll)
     }
 }

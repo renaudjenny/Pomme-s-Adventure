@@ -22,6 +22,8 @@
 		4C28F5822603E87E0065BF13 /* Bonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F57F2603E87E0065BF13 /* Bonus.swift */; };
 		4C9F7E852610CEDB00FE8FBB /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F7E842610CEDB00FE8FBB /* CGRect+Center.swift */; };
 		4C9F7E8D2613CA2B00FE8FBB /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */; };
+		4CA77FC52620BC870010784C /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA77FC42620BC870010784C /* Bubble.swift */; };
+		4CA77FCA2620D7BE0010784C /* Fireballs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA77FC92620D7BE0010784C /* Fireballs.swift */; };
 		4CEE085825FB7C8C005CE252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE085725FB7C8C005CE252 /* AppDelegate.swift */; };
 		4CEE085A25FB7C8C005CE252 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE085925FB7C8C005CE252 /* GameViewController.swift */; };
 		4CEE085D25FB7C8C005CE252 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CEE085B25FB7C8C005CE252 /* Main.storyboard */; };
@@ -70,6 +72,8 @@
 		4C28F57F2603E87E0065BF13 /* Bonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bonus.swift; sourceTree = "<group>"; };
 		4C9F7E842610CEDB00FE8FBB /* CGRect+Center.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
 		4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
+		4CA77FC42620BC870010784C /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
+		4CA77FC92620D7BE0010784C /* Fireballs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fireballs.swift; sourceTree = "<group>"; };
 		4CEE084E25FB7C84005CE252 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		4CEE084F25FB7C8C005CE252 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CEE085425FB7C8C005CE252 /* Pomme's Adventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pomme's Adventure.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +133,8 @@
 			children = (
 				4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */,
 				4C0FB756261A607B00062E40 /* Mana.swift */,
+				4CA77FC42620BC870010784C /* Bubble.swift */,
+				4CA77FC92620D7BE0010784C /* Fireballs.swift */,
 			);
 			path = Spell;
 			sourceTree = "<group>";
@@ -352,6 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CEE08C325FB829A005CE252 /* BitMask.swift in Sources */,
+				4CA77FC52620BC870010784C /* Bubble.swift in Sources */,
 				4CEE08A725FB8144005CE252 /* PhysicsContact.swift in Sources */,
 				4C9F7E852610CEDB00FE8FBB /* CGRect+Center.swift in Sources */,
 				4CEE08A025FB8046005CE252 /* Ball.swift in Sources */,
@@ -361,6 +368,7 @@
 				4C9F7E8D2613CA2B00FE8FBB /* Spell.swift in Sources */,
 				4C28F5802603E87E0065BF13 /* Bonus.swift in Sources */,
 				4C28F5752601444A0065BF13 /* Hit.swift in Sources */,
+				4CA77FCA2620D7BE0010784C /* Fireballs.swift in Sources */,
 				4CEE08BC25FB822C005CE252 /* Direction.swift in Sources */,
 				4CEE085A25FB7C8C005CE252 /* GameViewController.swift in Sources */,
 				4CEE08B525FB8209005CE252 /* NodeName.swift in Sources */,

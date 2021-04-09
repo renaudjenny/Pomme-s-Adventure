@@ -15,4 +15,8 @@ enum Direction {
         case .left: return 3 * .pi/2
         }
     }
+
+    var dxdy: (dx: CGFloat, dy: CGFloat) {
+        return (sin(angle), cos(angle))
+    }
 }
