@@ -11,8 +11,8 @@ final class Fireballs {
         node.zPosition = ZPosition.spellFireballs.rawValue
 
         node.physicsBody = SKPhysicsBody(circleOfRadius: 35)
-        node.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
-        node.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
+        node.physicsBody?.categoryBitMask = .fireballCategoryBitMask
+        node.physicsBody?.collisionBitMask = .fireballCollisionBitMask
         node.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
 
         return node
@@ -29,21 +29,27 @@ final class Fireballs {
 
     func cast() {
         isCast = true
-        count = 10
+        count = 100
     }
 
     func fire(player: Player, to direction: Direction, addChild: (SKNode) -> Void) {
-        let mainFireball = fireballNode()
-        mainFireball.position = player.node.position
-        addChild(mainFireball)
+        for i in -1...1 {
+            let fireball = fireballNode()
+            fireball.position = player.node.position
+            addChild(fireball)
 
-        let (dx, dy) = direction.dxdy
-        let impulse = CGVector(dx: dx, dy: dy)
-        mainFireball.run(SKAction.sequence([
-            SKAction.applyImpulse(impulse, duration: 1/2),
-            SKAction.wait(forDuration: 4),
-            SKAction.removeFromParent(),
-        ]))
+            let angle = direction.angle + .pi/6 * CGFloat(i)
+            let dx = sin(angle)
+            let dy = -cos(angle)
+            let factor: CGFloat = 60
+            let impulse = CGVector(dx: dx * factor, dy: dy * factor)
+            fireball.run(SKAction.sequence([
+                SKAction.applyImpulse(impulse, duration: 1/2),
+                SKAction.wait(forDuration: 1),
+                SKAction.fadeOut(withDuration: 1/2),
+                SKAction.removeFromParent(),
+            ]))
+        }
         count -= 1
     }
 }

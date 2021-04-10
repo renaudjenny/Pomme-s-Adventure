@@ -68,7 +68,6 @@ struct Spell {
     }
 
     func fire(player: Player, to direction: Direction, addChild: @escaping (SKNode) -> Void) {
-        print(fireballs.isCast)
         guard fireballs.isCast
         else { return }
         fireballs.fire(player: player, to: direction, addChild: addChild)

@@ -58,7 +58,7 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
     func collisionBetween(ball: SKNode, object: SKNode) {
         if object === playerNode {
             playerTouched(ball)
-        } else if object.name == NodeName.hitArea.rawValue {
+        } else if object.name == NodeName.hitArea.rawValue || object.name == Fireballs.name {
             ballHit(ball)
         } else if object.name == Bubble.name {
             bubbleTouched(ball)
