@@ -22,6 +22,7 @@ struct BitMask: OptionSet {
     static let ballContactTest: BitMask = [.playerCategory, .hitAreaCategory, .spellBubbleCategory]
     static let hitAreaContactTest: BitMask = [.ballCategory]
     static let bonusContactTest: BitMask = [.playerCategory]
+    static let fireballContactTest: BitMask = [.ballCategory]
 }
 
 extension UInt32 {
@@ -44,4 +45,5 @@ extension UInt32 {
     static let ballContactTestBitMask: Self = BitMask.ballContactTest.rawValue
     static let hitAreaContactTestBitMask: Self = BitMask.hitAreaContactTest.rawValue
     static let bonusContactTestBitMask: Self = BitMask.bonusContactTest.rawValue
+    static let fireballContactTestBitMask: Self = BitMask.fireballContactTest.rawValue
 }

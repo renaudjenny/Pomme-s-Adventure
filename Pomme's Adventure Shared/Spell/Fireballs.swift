@@ -5,15 +5,16 @@ final class Fireballs {
     static let mp = 300
     private(set) var isCast = false
 
-    func fireballNode() -> SKSpriteNode {
-        let node = SKSpriteNode(color: .red, size: CGSize(width: 30, height: 30))
+    func fireballNode() -> SKEmitterNode {
+        guard let node = SKEmitterNode(fileNamed: "Fire.sks")
+        else { fatalError("Cannot load Fire.sks file for Fireball Node") }
         node.name = Fireballs.name
         node.zPosition = ZPosition.spellFireballs.rawValue
 
         node.physicsBody = SKPhysicsBody(circleOfRadius: 35)
         node.physicsBody?.categoryBitMask = .fireballCategoryBitMask
         node.physicsBody?.collisionBitMask = .fireballCollisionBitMask
-        node.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
+        node.physicsBody?.contactTestBitMask = .fireballContactTestBitMask
 
         return node
     }
@@ -43,6 +44,7 @@ final class Fireballs {
             let dy = -cos(angle)
             let factor: CGFloat = 60
             let impulse = CGVector(dx: dx * factor, dy: dy * factor)
+            fireball.zRotation = angle
             fireball.run(SKAction.sequence([
                 SKAction.applyImpulse(impulse, duration: 1/2),
                 SKAction.wait(forDuration: 1),

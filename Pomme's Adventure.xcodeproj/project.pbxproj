@@ -20,6 +20,8 @@
 		4C28F5802603E87E0065BF13 /* Bonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F57F2603E87E0065BF13 /* Bonus.swift */; };
 		4C28F5812603E87E0065BF13 /* Bonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F57F2603E87E0065BF13 /* Bonus.swift */; };
 		4C28F5822603E87E0065BF13 /* Bonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C28F57F2603E87E0065BF13 /* Bonus.swift */; };
+		4C44E21E2622527C00542DDF /* Fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4C44E21C2622527C00542DDF /* Fire.sks */; };
+		4C44E21F2622527C00542DDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C44E21D2622527C00542DDF /* Assets.xcassets */; };
 		4C9F7E852610CEDB00FE8FBB /* CGRect+Center.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F7E842610CEDB00FE8FBB /* CGRect+Center.swift */; };
 		4C9F7E8D2613CA2B00FE8FBB /* Spell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */; };
 		4CA77FC52620BC870010784C /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA77FC42620BC870010784C /* Bubble.swift */; };
@@ -70,6 +72,8 @@
 		4C28F56D260142810065BF13 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4C28F5742601444A0065BF13 /* Hit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hit.swift; sourceTree = "<group>"; };
 		4C28F57F2603E87E0065BF13 /* Bonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bonus.swift; sourceTree = "<group>"; };
+		4C44E21C2622527C00542DDF /* Fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fire.sks; sourceTree = "<group>"; };
+		4C44E21D2622527C00542DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4C9F7E842610CEDB00FE8FBB /* CGRect+Center.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Center.swift"; sourceTree = "<group>"; };
 		4C9F7E8C2613CA2B00FE8FBB /* Spell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spell.swift; sourceTree = "<group>"; };
 		4CA77FC42620BC870010784C /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 				4C0FB756261A607B00062E40 /* Mana.swift */,
 				4CA77FC42620BC870010784C /* Bubble.swift */,
 				4CA77FC92620D7BE0010784C /* Fireballs.swift */,
+				4C44E21C2622527C00542DDF /* Fire.sks */,
+				4C44E21D2622527C00542DDF /* Assets.xcassets */,
 			);
 			path = Spell;
 			sourceTree = "<group>";
@@ -326,8 +332,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CEE085D25FB7C8C005CE252 /* Main.storyboard in Resources */,
+				4C44E21E2622527C00542DDF /* Fire.sks in Resources */,
 				4CEE086025FB7C8C005CE252 /* LaunchScreen.storyboard in Resources */,
 				4CEE088B25FB7C8C005CE252 /* Assets.xcassets in Resources */,
+				4C44E21F2622527C00542DDF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
