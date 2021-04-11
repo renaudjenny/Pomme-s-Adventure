@@ -30,7 +30,7 @@ final class Fireballs {
 
     func cast() {
         isCast = true
-        count = 100
+        count = 20
     }
 
     func fire(player: Player, to direction: Direction, addChild: (SKNode) -> Void) {
@@ -44,7 +44,7 @@ final class Fireballs {
             let dy = -cos(angle)
             let factor: CGFloat = 60
             let impulse = CGVector(dx: dx * factor, dy: dy * factor)
-            fireball.zRotation = angle
+            fireball.emissionAngle = angle + .pi/2
             fireball.run(SKAction.sequence([
                 SKAction.applyImpulse(impulse, duration: 1/2),
                 SKAction.wait(forDuration: 1),

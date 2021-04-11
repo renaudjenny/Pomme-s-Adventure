@@ -88,8 +88,6 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = physicsContact
 
         startRegeneratingMana()
-        spell.mana.value = 500
-        spell.castFireballs()
 
         run(SKAction.sequence([
             SKAction.wait(forDuration: 2),

@@ -42,9 +42,9 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
             collisionBetween(ball: nodeA, object: nodeB)
         case let (_, .some(ballName)) where Ball.AppleType.names.contains(ballName):
             collisionBetween(ball: nodeB, object: nodeA)
-        case (let .some(bonusName), _) where Bonus.GemType.names.contains(bonusName):
+        case let (.some(bonusName), _) where Bonus.GemType.names.contains(bonusName):
             bonusGathered(nodeA)
-        case (_, let .some(bonusName)) where Bonus.GemType.names.contains(bonusName):
+        case let (_, .some(bonusName)) where Bonus.GemType.names.contains(bonusName):
             bonusGathered(nodeB)
         #if os(iOS) || os(tvOS)
         case (NodeName.movePlayerArea.rawValue, _),
@@ -88,6 +88,25 @@ final class PhysicsContact: NSObject, SKPhysicsContactDelegate {
                 runImpulse(impulse: CGVector(dx: 0, dy: dy))
             }
         }
+    }
+
+    func didEnd(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node,
+              let nodeB = contact.bodyB.node
+        else { return }
+
+        switch (nodeA, nodeB) {
+        case let (nodeA as SKEmitterNode, nodeB) where nodeA.name == Fireballs.name && nodeB.name == NodeName.border.rawValue:
+            fireballTouchedBorder(fireball: nodeA)
+        case let (nodeA, nodeB as SKEmitterNode) where nodeA.name == NodeName.border.rawValue && nodeB.name == Fireballs.name:
+            fireballTouchedBorder(fireball: nodeB)
+        default: break
+        }
+    }
+
+    private func fireballTouchedBorder(fireball: SKEmitterNode) {
+        fireball.particleAlphaSpeed = -2.5
+        fireball.emissionAngleRange = 2 * .pi
     }
 }
 

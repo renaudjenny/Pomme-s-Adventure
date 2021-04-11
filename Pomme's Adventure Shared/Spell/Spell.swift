@@ -31,16 +31,13 @@ struct Spell {
     private func setScrolls() {
         switch mana.value {
         case 200..<300:
-            waterScroll.alpha = 1
+            waterScroll.alpha = bubble.isCast ? 2/10 : 1
         case 300...:
-            waterScroll.alpha = 1
-            fireScroll.alpha = 1
+            waterScroll.alpha = bubble.isCast ? 2/10 : 1
+            fireScroll.alpha = fireballs.isCast ? 2/10 : 1
         default:
             waterScroll.alpha = 2/10
             fireScroll.alpha = 2/10
-        }
-        if bubble.isCast {
-            waterScroll.alpha = 2/10
         }
     }
 

@@ -22,7 +22,7 @@ struct BitMask: OptionSet {
     static let ballContactTest: BitMask = [.playerCategory, .hitAreaCategory, .spellBubbleCategory]
     static let hitAreaContactTest: BitMask = [.ballCategory]
     static let bonusContactTest: BitMask = [.playerCategory]
-    static let fireballContactTest: BitMask = [.ballCategory]
+    static let fireballContactTest: BitMask = [.ballCategory, .borderCategory]
 }
 
 extension UInt32 {
