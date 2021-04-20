@@ -21,10 +21,12 @@ struct Player {
 
     init() {
         node = SKSpriteNode(imageNamed: "Pomme")
-
-        node.size = CGSize(width: 50, height: 50)
+        node.anchorPoint = CGPoint(x: 0.5, y: 0)
         node.zPosition = ZPosition.player.rawValue
-        node.physicsBody = SKPhysicsBody(circleOfRadius: node.frame.width/2 * 0.9)
+        node.physicsBody = SKPhysicsBody(
+            circleOfRadius: node.frame.width/2 * 0.9,
+            center: CGPoint(x: 0, y: node.size.height/2)
+        )
         node.physicsBody?.categoryBitMask = .playerCategoryBitMask
         node.physicsBody?.contactTestBitMask = .playerContactTestBitMask
         node.physicsBody?.collisionBitMask = .playerCollisionBitMask
@@ -38,7 +40,7 @@ struct Player {
 
         if node.physicsBody?.velocity == .zero {
             node.run(SKAction.repeatForever(
-                SKAction.animate(with: movementTextures, timePerFrame: 1/12)
+                SKAction.animate(with: movementTextures, timePerFrame: 1/12, resize: true, restore: false)
             ), withKey: Player.repeatMovementAnimationActionKey)
         }
 
@@ -73,10 +75,7 @@ struct Player {
     func stopMoving() {
         node.physicsBody?.velocity = .zero
         node.removeAction(forKey: Player.repeatMovementAnimationActionKey)
-        node.run(SKAction.sequence([
-            SKAction.wait(forDuration: 0.6),
-            SKAction.setTexture(SKTexture(imageNamed: "Pomme")),
-        ]))
+        node.run(SKAction.setTexture(SKTexture(imageNamed: "Pomme"), resize: true))
     }
 
     func fall(resurrectionPosition: CGPoint) {

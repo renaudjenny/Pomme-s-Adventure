@@ -12,7 +12,7 @@ extension GameScene {
               !isGameOver
         else { return }
 
-        addChild(hit.area(location: touchLocation, player: player))
+        hit.area(location: touchLocation, player: player)
         spell.fire(player: player, to: player.direction(from: touchLocation), addChild: addChild)
 
         if player.node.frame.insetBy(dx: -50, dy: -50).contains(touchLocation) {

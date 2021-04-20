@@ -9,31 +9,28 @@ final class Hit {
         SKTexture(imageNamed: "Broom-5"),
     ]
 
-    private func hitArea(playerHeight: CGFloat) -> SKSpriteNode {
-        let size = CGSize(width: 200, height: 125)
-        let area = SKSpriteNode(texture: textures.first, size: size)
-        area.anchorPoint = CGPoint(x: 0.5, y: 1/6)
+    func area(location: CGPoint, player: Player) {
+        area(direction: player.direction(from: location), player: player)
+    }
+
+    func area(direction: Direction, player: Player) {
+        player.node.run(SKAction.rotate(toAngle: direction.angle + .pi, duration: 1/60, shortestUnitArc: true))
+
+        let area = SKSpriteNode(texture: textures.first)
+        player.node.addChild(area)
+        area.anchorPoint = CGPoint(x: 0.5, y: 0)
         area.zPosition = ZPosition.hitArea.rawValue
         area.name = NodeName.hitArea.rawValue
+
         area.physicsBody = SKPhysicsBody(
-            rectangleOf: CGSize(width: size.width, height: size.height - playerHeight/2),
-            center: CGPoint(x: 0, y: playerHeight)
+            rectangleOf: CGSize(width: area.size.width, height: area.size.height - player.node.size.height/2),
+            center: CGPoint(x: 0, y: area.size.height/2 + player.node.size.height/4)
         )
         area.physicsBody?.isDynamic = false
         area.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
         area.physicsBody?.collisionBitMask = .hitAreaCollisionBitMask
         area.physicsBody?.contactTestBitMask = .hitAreaContactTestBitMask
-        return area
-    }
 
-    func area(location: CGPoint, player: Player) -> SKSpriteNode {
-        area(direction: player.direction(from: location), player: player)
-    }
-
-    func area(direction: Direction, player: Player) -> SKSpriteNode {
-        let area = hitArea(playerHeight: player.node.frame.height)
-        area.position = player.node.position
-        area.zRotation = direction.angle + .pi
         area.constraints = [SKConstraint.distance(SKRange(constantValue: 0), to: player.node)]
         area.run(SKAction.sequence([
             SKAction.animate(with: textures, timePerFrame: 1/24),
@@ -41,9 +38,5 @@ final class Hit {
             SKAction.fadeOut(withDuration: 0.2),
             SKAction.removeFromParent(),
         ]))
-
-        player.node.run(SKAction.rotate(toAngle: direction.angle, duration: 1/60, shortestUnitArc: true))
-
-        return area
     }
 }
