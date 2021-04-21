@@ -9,11 +9,11 @@ final class Hit {
         SKTexture(imageNamed: "Broom-5"),
     ]
 
-    func area(location: CGPoint, player: Player) {
-        area(direction: player.direction(from: location), player: player)
+    func trigger(in location: CGPoint, player: Player) {
+        trigger(to: player.direction(from: location), player: player)
     }
 
-    func area(direction: Direction, player: Player) {
+    func trigger(to direction: Direction, player: Player) {
         player.node.run(SKAction.rotate(toAngle: direction.angle + .pi, duration: 1/60, shortestUnitArc: true))
 
         let area = SKSpriteNode(texture: textures.first)

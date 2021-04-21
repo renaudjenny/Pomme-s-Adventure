@@ -128,14 +128,14 @@ extension Ball {
 
 extension GameScene {
     func repeatAddBall() {
-//        removeAction(forKey: Ball.repeatAddBallActionKey)
-//
-//        let durationBetweenBalls: TimeInterval = 2.0/TimeInterval(level) + 0.05
-//        run(SKAction.repeatForever(SKAction.sequence([
-//            SKAction.wait(forDuration: durationBetweenBalls),
-//            SKAction.run(addNewBall),
-//            SKAction.wait(forDuration: durationBetweenBalls),
-//        ])), withKey: Ball.repeatAddBallActionKey)
+        removeAction(forKey: Ball.repeatAddBallActionKey)
+
+        let durationBetweenBalls: TimeInterval = 2.0/TimeInterval(level) + 0.05
+        run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.wait(forDuration: durationBetweenBalls),
+            SKAction.run(addNewBall),
+            SKAction.wait(forDuration: durationBetweenBalls),
+        ])), withKey: Ball.repeatAddBallActionKey)
     }
 
     private func addNewBall() {

@@ -21,12 +21,8 @@ struct Player {
 
     init() {
         node = SKSpriteNode(imageNamed: "Pomme")
-        node.anchorPoint = CGPoint(x: 0.5, y: 0)
         node.zPosition = ZPosition.player.rawValue
-        node.physicsBody = SKPhysicsBody(
-            circleOfRadius: node.frame.width/2 * 0.9,
-            center: CGPoint(x: 0, y: node.size.height/2)
-        )
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.frame.width/2 * 0.9)
         node.physicsBody?.categoryBitMask = .playerCategoryBitMask
         node.physicsBody?.contactTestBitMask = .playerContactTestBitMask
         node.physicsBody?.collisionBitMask = .playerCollisionBitMask
