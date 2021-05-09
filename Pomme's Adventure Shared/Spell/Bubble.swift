@@ -11,7 +11,8 @@ final class Bubble {
         node.zPosition = ZPosition.spellBubble.rawValue
         node.alpha = 8/10
 
-        node.physicsBody = SKPhysicsBody(circleOfRadius: 35)
+        node.physicsBody = SKPhysicsBody(circleOfRadius: 40)
+        node.physicsBody?.isDynamic = false
         node.physicsBody?.categoryBitMask = .spellBubbleCategoryBitMask
 
         return node

@@ -18,13 +18,13 @@ final class Hit {
 
         let area = SKSpriteNode(texture: textures.first)
         player.node.addChild(area)
-        area.anchorPoint = CGPoint(x: 0.5, y: 0)
+        area.anchorPoint = CGPoint(x: 0.5, y: 1/6)
         area.zPosition = ZPosition.hitArea.rawValue
         area.name = NodeName.hitArea.rawValue
 
         area.physicsBody = SKPhysicsBody(
-            rectangleOf: CGSize(width: area.size.width, height: area.size.height - player.node.size.height/2),
-            center: CGPoint(x: 0, y: area.size.height/2 + player.node.size.height/4)
+            rectangleOf: CGSize(width: area.size.width, height: area.size.height - player.node.size.height/4),
+            center: CGPoint(x: 0, y: area.size.height/2 - player.node.size.height/4)
         )
         area.physicsBody?.isDynamic = false
         area.physicsBody?.categoryBitMask = .hitAreaCategoryBitMask
