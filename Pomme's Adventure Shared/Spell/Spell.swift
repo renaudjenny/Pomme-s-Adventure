@@ -6,10 +6,8 @@ struct Spell {
     private var bubble = Bubble()
     private var fireballs = Fireballs()
 
-    let waterScroll: SKShapeNode = {
-        let node = SKShapeNode(circleOfRadius: 25)
-        node.fillColor = .blue
-
+    let waterScroll: SKSpriteNode = {
+        let node = SKSpriteNode(imageNamed: "Water-scroll-available")
         let label = SKLabelNode(text: "200")
         label.verticalAlignmentMode = .center
         label.fontSize = 20
